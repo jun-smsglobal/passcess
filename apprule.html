@@ -1,0 +1,304 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Global App Rules - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">App Settings</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "apprules">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <h1 class="form-title">Global App Rules</h1>
+                        <!-- page contents go here -->
+                        <div class="row-fluid">
+                          <div class="col-sm-4 col-md-4 col-lg-4">
+                            <!-- <span>&nbsp;</span></br> -->
+                            <button class="btn btn-primary btn-sm" type="button" id="btnaddapp" v-on:click="checkUser(4)" data-toggle="modal" data-target="#myModalAddApp">
+                              Add New Application &nbsp; <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                          </div>
+                          <div class="col-sm-4 col-md-4 col-lg-4">
+                            <span>&nbsp;</span></br>
+                          </div>
+                          <div class="col-sm-4 col-md-4 col-lg-4">
+                            <span>&nbsp;</span></br>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <hr>
+                        </div>
+
+                        <div class="row-fluid">
+                          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- Start App Name -->
+                            <div class="firewall-app col-sm-5 col-md-5 col-lg-5" v-for="(AppliName, index) in optAppname">
+
+                              <button class="btn btn-default btn-sm" style="width:100%; border:0px;" type="button" id="btnaddrules" v-on:click="checkUser(1, AppliName.appid)" data-toggle="modal" data-target="#myModalAddRule">
+                                <img src="assets/img/fb.png" alt="" width="25" height="25" />
+                                  &nbsp; {{ AppliName.appname }} &nbsp;
+                                <i class="glyphicon glyphicon-plus"></i>
+                              </button>
+                              <hr>
+                              <ul class="" v-for="(settvalue, index) in allappRules" v-if="settvalue.appid===AppliName.appid" :key="settvalue.apprulesid">
+                                <li>
+                                  <label> {{ settvalue.appfeatures }} </label>
+                                  <div class="btn-group btn-group-xs" style="position: absolute; right: 15px;">
+                                    <button type="button" class="btn-change-edit" v-on:click="checkUser(2); selectApprules(settvalue);" data-toggle="modal" data-target="#myModalEdit">Edit</button>
+                                    <button type="button" class="btn-change-delete" v-on:click="checkUser(3); selectApprules(settvalue);" data-toggle="modal" data-target="#myModalDel">Delete</button>
+                                  </div>
+                                </li>
+                              </ul>
+
+                            </div><!-- End App Name -->
+                          </div>
+                        </div>
+
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalAddRule" role="dialog" v-if="showAddRuleModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddRuleModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Add App Rule</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group">
+                              <span>Feature :</span>
+                              <input type="text" name="addfeature" id="addfeature" class="form-control form-control-lg" placeholder="Feature" v-on:keyup.enter="setFocus(2)" v-model="NewAppRules.appfeatures">
+                            </div>
+                            <div class="form-group">
+                              <span>App Rules / IP Set :</span>
+                              <input type="text" name="addrule" id="addrule" class="form-control form-control-lg" placeholder="App Rules" v-on:keyup.enter="setFocus(3)" v-model="NewAppRules.apprules">
+                            </div>
+                            <div class="form-group">
+                              <span>Domain :</span>
+                              <input type="text" name="adddomain" id="adddomain" class="form-control form-control-lg" placeholder="Domain" v-on:keyup.enter="setFocus(4)" v-model="NewAppRules.appdomains">
+                            </div>
+                            <div class="form-group">
+                              <span>Status :</span>
+                              <select class="form-control form-control-lg" id="addstat" v-model="NewAppRules.appenabled">
+                                <option v-for="option in optActive" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addbtn" class="btn btn-primary" v-on:click="showAddRuleModal=false; addAppRule();" data-dismiss="modal">Add Rule</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEdit" role="dialog" v-if="showEditModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditModal=false; removeData();" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit App Rules</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group">
+                              <span>Feature :</span>
+                              <input type="text" name="editfeature" id="editfeature" class="form-control form-control-lg" v-on:keyup.enter="setFocus(7)" v-model="currappRules.appfeatures">
+                            </div>
+                            <div class="form-group">
+                              <span>App Rules / IP Set :</span>
+                              <input type="text" name="editrule" id="editrule" class="form-control form-control-lg" v-on:keyup.enter="setFocus(8)" v-model="currappRules.apprules">
+                            </div>
+                            <div class="form-group">
+                              <span>Domain :</span>
+                              <input type="text" name="editdomain" id="editdomain" class="form-control form-control-lg" v-on:keyup.enter="setFocus(9)" v-model="currappRules.appdomains">
+                            </div>
+                            <div class="form-group">
+                              <span>Status :</span>
+                              <select class="form-control form-control-lg" id="editstat" v-model="currappRules.appenabled">
+                                <option v-for="option in optActive" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <input type="hidden" name="editid" id="editid" class="form-control form-control-lg" v-on:keyup.enter="" v-model="currappRules.appid">
+                            </div>
+                            <div class="form-group">
+                              <input type="hidden" name="editruleid" id="editruleid" class="form-control form-control-lg" v-on:keyup.enter="" v-model="currappRules.apprulesid">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="editbtn" class="btn btn-primary" v-on:click="showEditModal=false; updateAppRule();" data-dismiss="modal">Update</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="myModalDel" role="dialog" v-if="showDeleteModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showDeleteModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>App Rules</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <h4 class="text-dark">Disable Rule?</h4>
+                          <h5>Application Name : " {{ currappRules.appfeatures }} "</h5>
+                          <hr><button type="button" class="btn btn-secondary btn-lg" v-on:click="showDeleteModal=false; deleteAppRule();" data-dismiss="modal">YES</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-secondary btn-lg" v-on:click="showDeleteModal=false;" data-dismiss="modal">NO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Add App Modal -->
+                  <div class="modal fade" id="myModalAddApp" role="dialog" v-if="showAddModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title">Add Applications</h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method='POST' enctype='multipart/form-data'>
+                            <div class="form-group">
+                              <span>Application Name :</span>
+                              <input type="text" name="addfeature" id="addappname" class="form-control form-control-lg" placeholder="Application Name" v-on:keyup.enter="setFocus(12);" v-model="NewAppName.appname">
+                            </div>
+                            <div class="form-group">
+                              <span>Image Location :</span>
+                              <input type="text" name="addrule" id="addapploc" class="form-control form-control-lg" placeholder="assets/img/" v-on:click="passFileUrl()" v-model="NewAppName.appimgloc">
+                            </div>
+                            <div class="form-group">
+                              <span>Upload Image :</span>&nbsp;&nbsp;
+                              <!-- <input type="file" name="addappimg" id="addappimg" class="form-control form-control-lg" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0]);"> -->
+                              <!-- <img id="output" src="" width="100" height="100"> -->
+                              <input type="file" name="addappimg" id="addappimg" class="form-control form-control-lg" style="display:none;" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0]);">
+                              <br><img id="output" src="assets/img/blank.png" width="100" height="100" v-on:click="passFileUrl()" style="cursor:pointer;">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addbtnapp" class="btn btn-primary" v-on:click="showAddModal=false; addAppName();" data-dismiss="modal">Add Rule</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/apprule.js"></script>
+      <script>
+        $('#othermngt').addClass('mm-active');
+        $('#othermngt').find('ul').addClass('mm-collapse mm-show');
+      </script>
+    </div>
+</body>
+
+</html>

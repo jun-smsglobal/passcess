@@ -1,0 +1,267 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnpartnermngt" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Partner Management - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-124">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Partner Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "apppartner">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Partner Listing</h1>
+                        <!-- page contents go here -->
+                        <form action="javascript:void(0)" class="">
+                          <div class="row-fluid">
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                              <div class="col-sm-6 col-md-6 col-lg-6">
+                                <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(1); setFocusModal('1');" data-toggle="modal" data-target="#myModalAdd">
+                                  Add New Partner</button>
+                                &nbsp;
+                                <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(3);" data-toggle="modal" data-target="#myModalDel" v-bind:disabled="btnDelDisable">
+                                  Delete Partner</button>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                        <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                        <div class="row-fluid">
+                          <div class="col-sm-12 col-md-12 col-lg-12">
+                            <table id="partnermngtdata" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                          </div>
+                        </div>
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalAdd" role="dialog" v-if="showAddModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Add New Partner</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get" autocomplete="off">
+                            <div class="form-group">
+                              <input type="text" name="addid" id="addid" class="form-control form-control-lg" placeholder="ID (Auto)" v-model="newPartner.partnerid" disabled>
+                            </div>
+                            <div class="form-group">
+                              <span>Partner Name</span>
+                              <input type="text" name="addpartnername" id="addpartnername" class="form-control form-control-lg"
+                                placeholder="Partner Name" v-on:keyup.enter="setFocus('addemailadd')" v-model="newPartner.partnername">
+                            </div>
+                            <div class="form-group">
+                              <span>Support E-mail Address</span>
+                              <input type="text" name="addemailadd" id="addemailadd" class="form-control form-control-lg"
+                                placeholder="E-mail Address" v-on:keyup.enter="setFocus('addcontactno')" v-model="newPartner.emailadd">
+                            </div>
+                            <div class="form-group">
+                              <span>Contact Number</span>
+                              <input type="text" name="addcontactno" id="addcontactno" class="form-control form-control-lg"
+                                placeholder="Contact Number" v-on:keyup.enter="setFocus('addbtn')" v-model="newPartner.contactno">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addbtn" class="btn btn-primary" v-on:click="showAddModal=false; addPartner();" data-dismiss="modal">Add Partner</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEdit" role="dialog" v-if="showEditModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditModal=false; removeData();" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit Partner</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get" autocomplete="off">
+                            <div class="form-group">
+                              <input type="hidden" name="editid" id="editid" class="form-control form-control-lg" v-model="currPartner.partnerid" disabled>
+                            </div>
+                            <div class="form-group">
+                              <span>Partner Name</span>
+                              <input type="text" name="editpartnername" id="editpartnername" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('editemailadd')" v-model="currPartner.partnername">
+                            </div>
+                            <div class="form-group">
+                              <span>Support E-mail Address</span>
+                              <input type="text" name="editemailadd" id="editemailadd" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('editcontactno')" v-model="currPartner.emailadd">
+                            </div>
+                            <div class="form-group">
+                              <span>Contact Number</span>
+                              <input type="text" name="editcontactno" id="editcontactno" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('editbtn')" v-model="currPartner.contactno">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="editbtn" class="btn btn-primary" v-on:click="showEditModal=false; updatePartner();" data-dismiss="modal">Update</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="myModalDel" role="dialog" v-if="showDeleteModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showDeleteModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Partner Management</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Delete &nbsp;{{ apppartner.delName }} ?</span>
+                          </div>
+                          <hr>
+                          <button type="button" class="btn btn-danger" v-on:click="showDeleteModal=false; GetCheckValue();" data-dismiss="modal">YES</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary" v-on:click="showDeleteModal=false;" data-dismiss="modal">NO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end appuser -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/partner.js"></script>
+      <script>
+        $('#partnermngt').addClass('mm-active');
+        $('#partnermngt').find('ul').addClass('mm-collapse mm-show');
+
+        checkMenuPermission();
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <link rel="stylesheet" href="./assets/datatables/jquery.dataTables.min.css"/>
+      <script src="./assets/datatables/jquery.dataTables.min.js"></script>
+      <link rel="stylesheet" href="./assets/css/datatable_sort.css"/>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+    </div>
+</body>
+
+</html>

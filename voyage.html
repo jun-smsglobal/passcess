@@ -1,0 +1,476 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnVoyageSked" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Voyage Scheduling - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Vessel Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "appvoyage">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Voyage Scheduling</h1>
+                        <!-- page contents go here -->
+                        <div class="row-fluid">
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                            <!-- <div class="col-sm-4 col-md-4 col-lg-4">
+                              <span>Select Fleet :</span>
+                              <select class="form-control" id="modeFleet" v-model="vesselSetting.fleetID" v-on:change="">
+                                <option v-for="option in optFleet" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div> -->
+                            <!-- <div class="col-sm-6 col-md-6 col-lg-6">
+                              <table style="width: 100%;">
+                              <tr>
+                                <td>Select Vessel</td>
+                                <td>
+                                  <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value)">
+                                    <option v-for="option in optVess" v-bind:value="option.value">
+                                      {{ option.text }}
+                                    </option>
+                                  </select>
+                                </td>
+                              </tr>
+                              </table>
+                            </div> -->
+
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <label>Select Vessel</label>
+                              <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value)">
+                                <option v-for="option in optVess" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <label>Status</label>
+                              <select class="form-control" id="modeVessel" v-model="vesselSetting.vessStatus" v-on:change="changeVesselID(vesselSetting.vesselID)">
+                                <option v-for="option in optStatus" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                              <label>Date From</label>
+                              <input id="datetimepicker5" type="text" class="form-control form-control-lg" v-model="vesselSetting.dateFrom">
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                              <label>Date To</label>
+                              <input id="datetimepicker6" type="text" class="form-control form-control-lg" v-model="vesselSetting.dateTo" >
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                              <span>&nbsp;</span></br>
+                              <button class="btn btn-primary" style="height:35px" type="button" id="btnsearch" v-on:click="getAllSched();">
+                                <i class="glyphicon glyphicon-filter"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow">
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(1); getNewDate(); getAllPort(); setFocusModal('1')"
+                                data-toggle="modal"  data-target="#myModalAdd">Add Voyage</button>
+                              &nbsp;
+                              <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(3);"
+                                data-toggle="modal" data-target="#myModalDel" v-bind:disabled="btnDelDisable">Delete Voyage</button>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                          <div class="col-sm-12 col-md-12 col-lg-12">
+                            <table id="voyageskeddata" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                          </div>
+                        </div>
+
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- Add Modal -->
+                  <!-- <div class="modal fade" id="myModalAdd" role="dialog"> -->
+                  <div class="modal fade" id="myModalAdd" role="dialog" v-if="showAddModal">
+                    <div class="modal-dialog" role="document">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <!-- <button type="button" class="close" data-dismiss="modal"> -->
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>New Voyage Schedule</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group">
+                              <span>Vessel Name : <b>{{ vesselSetting.vesselName }}</b></span>
+                            </div>
+                            <div class="form-group">
+                              <span>Voyage Number</span>
+                              <!-- <input type="text" name="addvoyageid" id="addvoyageid" class="form-control form-control-lg" placeholder="Voyage ID"
+                                v-on:keyup.enter="setFocus('addleg')" v-on:blur="validateVoyage(newSched);" v-model="newSched.voyage"> -->
+                              <input type="text" name="addvoyageid" id="addvoyageid" class="form-control form-control-lg" placeholder="Voyage Number"
+                                v-on:keyup.enter="setFocus('addleg')" v-model="newSched.voyage">
+                            </div>
+                            <div class="form-group">
+                              <span>Leg Number</span>
+                              <!-- <input type="text" name="addleg" id="addleg" class="form-control form-control-lg" placeholder="Leg ID"
+                                v-on:keyup.enter="setFocus('modeArea1')" v-on:blur="validateVoyage(newSched);" v-model="newSched.leg"> -->
+                              <input type="text" name="addleg" id="addleg" class="form-control form-control-lg" placeholder="Leg Number"
+                                v-on:keyup.enter="setFocus('modeArea1')" v-model="newSched.leg">
+                            </div>
+                            <div class="form-group">
+                              <span>Origin</span>
+                              <table width="100%"><tr>
+                                <td width="95%">
+                                  <select class="form-control" id="modeArea1" v-model="newSched.origin" v-on:change="showAddPort(1);">
+                                    <option v-for="option in optArea" v-bind:value="option.value">
+                                      {{ option.text }}
+                                    </option>
+                                  </select>
+                                </td>
+                                <!-- <td width="5%">
+                                  <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(4);" data-toggle="modal" data-target="#myModalAddPort">+</button>
+                                </td> -->
+                              </tr></table>
+                            </div>
+                            <div class="form-group">
+                              <span>Departure Date and Time</span>
+                              <input id="datetimepicker1" type="text" class="form-control form-control-lg" v-model="newSched.departure_at">
+                            </div>
+                            <div class="form-group">
+                              <span>Destination</span>
+                              <table width="100%"><tr>
+                                <td width="95%">
+                                  <select class="form-control" id="modeArea2" v-model="newSched.destination" v-on:change="showAddPort(2);">
+                                    <option v-for="option in optArea" v-bind:value="option.value" >
+                                      {{ option.text }}
+                                    </option>
+                                  </select>
+                                </td>
+                                <!-- <td width="5%">
+                                  <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(4);" data-toggle="modal" data-target="#myModalAddPort">+</button>
+                                </td> -->
+                              </tr></table>
+                            </div>
+                            <div class="form-group">
+                              <span>Arrival Date and Time</span>
+                              <input id="datetimepicker2" type="text" class="form-control form-control-lg" v-on:keyup.enter="setFocus('addbtn')" v-model="newSched.arrival_at">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addbtn" class="btn btn-primary" v-on:click="validateData(newSched, '1');" data-dismiss="modal">Add Sched</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEdit" role="dialog" v-if="showEditModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditModal=false; removeData();" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit Voyage Schedule</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group">
+                              <span>Vessel Name : <b>{{ vesselSetting.vesselName }}</b></span>
+                            </div>
+                            <div class="form-group">
+                              <span>Voyage Number</span>
+                              <input type="text" name="editvoyageid" id="editvoyageid" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('editleg')" v-model="currVoyage.voyage" v-bind:disabled="btnInputDisable">
+                            </div>
+                            <div class="form-group">
+                              <span>Leg Number</span>
+                              <input type="text" name="editleg" id="editleg" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('editorigin')" v-model="currVoyage.leg" v-bind:disabled="btnInputDisable">
+                            </div>
+                            <div class="form-group">
+                              <span>Origin</span>
+                              <table width="100%"><tr>
+                                <td width="95%">
+                                  <select class="form-control" id="modeArea3" v-model="currVoyage.origin" v-on:change="showAddPort(3);" v-bind:disabled="btnInputDisable">
+                                    <option v-for="option in optArea" v-bind:value="option.value">
+                                      {{ option.text }}
+                                    </option>
+                                  </select>
+                                </td>
+                                <!-- <td width="5%">
+                                  <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(4);" data-toggle="modal" data-target="#myModalAddPort">+</button>
+                                </td> -->
+                              </tr></table>
+                            </div>
+                            <div class="form-group">
+                              <span>Departure Date and Time</span>
+                              <input id="datetimepicker3" type="text" class="form-control form-control-lg" v-model="currVoyage.departure_at" v-bind:disabled="btnInputDisable">
+                            </div>
+                            <div class="form-group">
+                              <span>Destination</span>
+                              <table width="100%"><tr>
+                                <td width="95%">
+                                  <select class="form-control" id="modeArea4" v-model="currVoyage.destination" v-on:change="showAddPort(4);" v-bind:disabled="btnInputDisable">
+                                    <option v-for="option in optArea" v-bind:value="option.value">
+                                      {{ option.text }}
+                                    </option>
+                                  </select>
+                                </td>
+                                <!-- <td width="5%">
+                                  <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(4);" data-toggle="modal" data-target="#myModalAddPort">+</button>
+                                </td> -->
+                              </tr></table>
+                            </div>
+                            <div class="form-group">
+                              <span>Arrival Date and Time</span>
+                              <input id="datetimepicker4" type="text" class="form-control form-control-lg" v-model="currVoyage.arrival_at" v-bind:disabled="btnInputDisable">
+                            </div>
+                            <div class="form-group" v-if="currVoyage.status == 'Completed'">
+                              <span>Passenger Manifest</span>
+                              <input type="text" name="editpasscount" id="editpasscount" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('editbtn')" v-model="currVoyage.passenger_count">
+                            </div>
+
+                            <div class="form-group">
+                              <button type="button" id="editbtn" class="btn btn-primary" v-on:click="validateData(currVoyage, '2');" data-dismiss="modal">Update</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="myModalDel" role="dialog" v-if="showDeleteModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showDeleteModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Voyage Scheduling</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Delete voyage &nbsp;{{ appvoyage.delName }} ?</span>
+                          </div>
+                          <hr>
+                          <button type="button" class="btn btn-danger" v-on:click="showDeleteModal=false; GetCheckValue();" data-dismiss="modal">YES</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary" v-on:click="showDeleteModal=false;" data-dismiss="modal">NO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Add Phil Port Modal -->
+                  <div class="modal fade" id="myModalAddPort" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title">Add New Port</h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get" autocomplete="off">
+                            <div class="form-group">
+                              <input type="hidden" name="addid" id="addid" class="form-control form-control-lg" placeholder="ID (Auto)" v-model="newPort.portid" disabled>
+                            </div>
+                            <div class="form-group">
+                              <span>Country</span>
+                              <select class="form-control" id="modeArea5" v-model="newPort.portcountry" v-on:change="showAddPort(3);">
+                                <option v-for="option in optCountry" v-bind:value="option.text">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                              <!-- <input type="text" name="addcountry" id="addcountry" class="form-control form-control-lg"
+                                placeholder="Country" v-model="newPort.portcountry" v-on:keyup.enter="setFocus('addcity')"> -->
+                            </div>
+                            <div class="form-group">
+                              <span>City</span>
+                              <input type="text" name="addcity" id="addcity" class="form-control form-control-lg"
+                                placeholder="City" v-model="newPort.portcity" v-on:keyup.enter="setFocus('addcode')">
+                            </div>
+                            <div class="form-group">
+                              <span>Code</span>
+                              <input type="text" name="addcode" id="addcode" class="form-control form-control-lg"
+                                placeholder="Code" maxlength="20" v-model="newPort.portcode" v-on:keyup.enter="setFocus('addbtn')">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addbtn" class="btn btn-primary btn-sm" v-on:click="addArea();" data-dismiss="modal">Add New Port Code</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- process Modal -->
+                  <div id="myModalProcess">
+                    <div id="loading-modal" style="width: 80%">
+                      <div id="loading-modal-content"  style="position:absolute; width:80%">
+                        <p style="color:#000">Loading page, please wait</p>
+                        <p><img src="assets/img/loader.svg" alt=""></p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/voyage.js"></script>
+      <script>
+        $('#vesselmngt').addClass('mm-active');
+        $('#vesselmngt').find('ul').addClass('mm-collapse mm-show');
+
+        $(document).ready(function() {
+          // $('#datetimepicker1').datetimepicker({format:'Y-m-d'});
+          $('#datetimepicker5').datepicker({"dateFormat": "yy-mm-dd"});
+          $('#datetimepicker5').on('change', function(e){
+              $("#datetimepicker5").val(this.value)[0].dispatchEvent(new Event('input'))
+          });
+        });
+        $(document).ready(function() {
+          // $('#datetimepicker2').datetimepicker({format:'Y-m-d'});
+          $('#datetimepicker6').datepicker({"dateFormat": "yy-mm-dd"});
+          $('#datetimepicker6').on('change', function(e){
+              $("#datetimepicker6").val(this.value)[0].dispatchEvent(new Event('input'))
+          });
+        });
+
+        checkMenuPermission();
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <link rel="stylesheet" href="./assets/datatables/jquery.dataTables.min.css"/>
+      <script src="./assets/datatables/jquery.dataTables.min.js"></script>
+      <script src="./assets/datatables/input.js"></script>
+      <!-- <script src="./assets/datatables/datetime.js"></script> -->
+      <link rel="stylesheet" href="./assets/css/datatable_sort.css"/>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+
+    </div>
+</body>
+
+</html>

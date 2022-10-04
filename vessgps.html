@@ -1,0 +1,203 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+    <!-- <script src="http://www.openlayers.org/api/OpenLayers.js"></script> -->
+    <script type="text/javascript" src="assets/js/openlayers.js"></script>
+</head>
+<!-- Header file -->
+
+<body data-target="mnVessGPS" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Vessel Position - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Vessel Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "appgps">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Vessel Position</h1>
+                        <!-- page contents go here -->
+                        <div class="row-fluid">
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <span>Select Vessel</span>
+                              <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value)">
+                                <option v-for="option in optVess" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                              <span>Date From</span>
+                              <input id="datetimepicker1" type="text" class="form-control position-relative" v-model="vesselSetting.dateFrom" >
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                              <span>Date To</span>
+                              <input id="datetimepicker2" type="text" class="form-control position-relative" v-model="vesselSetting.dateTo" >
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                              <span>&nbsp;&nbsp;&nbsp;</span></br>
+                              <button class="btn btn-primary" style="height:35px" type="button" id="btnsearch" v-on:click="getAllGPS();">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <span>Longitude</span></br>
+                            <input type="number" class="form-control" min="0" step="0.01" v-model="GPSLoc.lon" >
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <span>Latitude</span></br>
+                            <input type="number" class="form-control" min="0" step="0.01" v-model="GPSLoc.lat" >
+                          </div>
+                          <div class="col-sm-2 col-md-2 col-lg-2">
+                            <span>&nbsp;&nbsp;&nbsp;</span></br>
+                            <button class="btn btn-primary" style="height:35px" type="button" id="btnsearch" v-on:click="myMAP(GPSLoc.lon, GPSLoc.lat);">
+                              <i class="glyphicon glyphicon-map-marker"></i>
+                            </button>
+                        </div> -->
+                        <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                          <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div id="mapdiv" style="width:100%;height:600px;"></div>
+                            <div id="popup" class="ol-popup">
+                              <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                              <div id="popup-content"></div>
+                            </div>
+                          </div>
+
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- process Modal -->
+                  <!-- <div id="myModalProcess">
+                    <div id="loading-modal" style="width: 80%">
+                      <div id="loading-modal-content"  style="position:absolute; width:80%">
+                        <p style="color:#000">Loading page, please wait</p>
+                        <p><img src="assets/img/loader.svg" alt=""></p>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/vessgps.js"></script>
+      <script>
+        $('#reportmngt').addClass('mm-active');
+        $('#reportmngt').find('ul').addClass('mm-collapse mm-show');
+        $('#usagemngt').find('ul').removeClass('mm-show');
+
+        $(document).ready(function() {
+          // $('#datetimepicker1').datetimepicker({format:'Y-m-d'});
+          $('#datetimepicker1').datepicker({"dateFormat": "yy-mm-dd"});
+          $('#datetimepicker1').on('change', function(e){
+              $("#datetimepicker1").val(this.value)[0].dispatchEvent(new Event('input'))
+          });
+        });
+        $(document).ready(function() {
+          // $('#datetimepicker2').datetimepicker({format:'Y-m-d'});
+          $('#datetimepicker2').datepicker({"dateFormat": "yy-mm-dd"});
+          $('#datetimepicker2').on('change', function(e){
+              $("#datetimepicker2").val(this.value)[0].dispatchEvent(new Event('input'))
+          });
+        });
+
+        checkMenuPermission();
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,550 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<!-- Header file -->
+
+<body data-target="mnVoyageRep" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Voyage Report - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-124">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Reports</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id="vessrep" class="canvas_div_pdf">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Voyage Report</h1>
+                        <!-- page contents go here -->
+                        <div class="row-fluid">
+                          <div class="col-sm-4 col-md-4 col-lg-4">
+                            <span>Vessel List</span>
+                            <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value);">
+                              <option v-for="option in optVess" v-bind:value="option.value">
+                                {{ option.text }}
+                              </option>
+                            </select>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <span>Date From</span>
+                            <input id="datetimepicker1" type="text" class="form-control form-control-lg" v-model="vesselSetting.dateFrom" >
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <span>Date To</span>
+                            <input id="datetimepicker2" type="text" class="form-control form-control-lg" v-model="vesselSetting.dateTo">
+                          </div>
+                          <div class="col-sm-2 col-md-2 col-lg-2">
+                            <span>&nbsp;</span></br>
+                            <button class="btn btn-primary" style="height:35px" type="button" id="btnsearch" v-on:click="newfilter(); getVoyage(); getAllReports('2');">
+                              <i class="glyphicon glyphicon-filter"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="row-fluid">
+                          <div class="col-sm-2 col-md-2 col-lg-2" style="padding-top:15px;">
+                            <span>Voyage ID List</span>
+                            <select class="form-control" id="modeVoyage" v-model="voyid" v-on:change="getLeg(); getAllReports('2');">
+                              <option v-for="option in optVoyage" v-bind:value="option.voyage">
+                                {{ option.voyageid }}
+                              </option>
+                            </select>
+                          </div>
+                          <div class="col-sm-4 col-md-4 col-lg-4" style="padding-top:15px;">
+                            <span>Journey List</span>
+                            <!-- <select class="form-control" id="modeLeg" v-model="legid" v-on:change="changeVoyage(this.value);"> -->
+                            <select class="form-control" id="modeLeg" v-model="legid" v-on:change="changeVoyage(this.value);">
+                              <option v-for="option in optLeg" v-bind:value="option.legid">
+                                {{ option.journey }}
+                              </option>
+                            </select>
+                          </div>
+                          <!-- <div class="col-sm-3 col-md-3 col-lg-3" style="padding-top:15px;">
+                            <span>&nbsp;</span></br>
+                          </div> -->
+                          <div class="col-sm-3 col-md-3 col-lg-3"><span>&nbsp;</span></br>&nbsp;</div>
+                        </div>
+
+                      <div class="col-sm-12 col-md-12 col-lg-12">
+                        <hr>
+                      </div>
+
+                      <div class="row-fluid">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <p style="font-size:16;padding-top:0px;"><b>Summary</b></p>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                          <p style="font-size:16;padding-top:1px;">{{ totalName1 }}<b>{{ totalBasic.toLocaleString() }}</b></p>
+                          <p style="font-size:16;padding-bottom:1px;">{{ totalName2 }}<b>{{ totalPremium.toLocaleString() }}</b></p>
+                          <p style="font-size:16;padding-bottom:10px;">Passenger Capacity: <b>{{ totalCapacity }}</b></p>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                          <p style="font-size:16;padding-top:1px;">{{ totalName3 }}<b>{{ totalData }} MB</b></p>
+                          <p style="font-size:16;padding-bottom:10px;">{{ totalName4 }}<b>{{ totalTime }} Hrs</b></p>
+                        </div>
+                        <!-- <div class="col-sm-6 col-md-6 col-lg-6">&nbsp;&nbsp;</div> -->
+                      </div>
+
+                      <div class="row-fluid">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <p style="font-size:16;padding-top:0px;"><b>Graphs</b></p>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div v-on:click="viewGraph(1);" data-toggle="modal" data-target="#myModalPie" id="piechart"></div>
+                            <div id="div_services"></div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div v-on:click="viewGraph(2);" data-toggle="modal" data-target="#myModalPieApps" id="piechart_apps"></div>
+                            <div id="div_freq"></div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div v-on:click="viewGraph(3);" data-toggle="modal" data-target="#myModalLineApp" id="linechart_app"></div>
+                            <div id="div_conn"></div>
+                          </div>
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div v-on:click="viewGraph(4);" data-toggle="modal" data-target="#myModalLine" id="linechart"></div>
+                            <div id="div_usage"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row-fluid">
+                        <div class="col-sm-12 col-md-12 col-lg-12" style="padding-top:15px;padding-bottom:15px;">
+                          <!-- <div class="col-sm-4 col-md-4 col-lg-4" style="padding-top:15px;padding-bottom:15px;"> -->
+                            <button class="btn btn-primary btn-sm" type="button" v-on:click="getGraphData();">Refresh Graph</button>
+                          <!-- </div> -->
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><hr></div>
+                      <div class="row-fluid">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <table id="voyagerepdata" class="table table-bordered table-striped table-condensed table-hover nowrap" width="100%"></table>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                        <div id="myButtons" class="col-sm-12 col-md-12 col-lg-12" style="display:none">
+                          <button class="btn btn-primary btn-sm" v-on:click="JsonToCSV(); downloadCSV()">Download TXT</button>
+                          <!-- <button class="btn btn-primary btn-sm" v-on:click="JsonToCSV(); copyData()">Copy To Clipboard</button> -->
+                          <button class="btn btn-primary btn-sm" v-on:click="viewGraph(5);" data-toggle="modal" data-target="#myModalReport">Print Report</button>
+                        </div>
+                      </div>
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- Graph Modal -->
+                  <div class="modal fade" id="myModalPie" role="dialog" v-if="showGraphModal1">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header"></div>
+                        <div class="modal-body">
+                            <div id="piechartmodal"></div>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-sm" v-on:click="viewGraph(5);" data-toggle="modal" data-target="#myModalReport">Print</button>
+                            <button type="button" class="btn btn-default btn-sm" v-on:click="showGraphModal1=false;" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Graph Modal -->
+                  <div class="modal fade" id="myModalPieApps" role="dialog" v-if="showGraphModal2">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header"></div>
+                        <div class="modal-body">
+                          <div id="piechart_appsmodal"></div>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-sm" v-on:click="viewGraph(5);" data-toggle="modal" data-target="#myModalReport">Print</button>
+                            <button type="button" class="btn btn-default btn-sm" v-on:click="showGraphModal2=false;" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Graph Modal -->
+                  <div class="modal fade" id="myModalLineApp" role="dialog" v-if="showGraphModal3">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header"></div>
+                        <div class="modal-body">
+                          <div id="linechart_appmodal"></div>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-sm" v-on:click="viewGraph(5);" data-toggle="modal" data-target="#myModalReport">Print</button>
+                            <button type="button" class="btn btn-default btn-sm" v-on:click="showGraphModal3=false;" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Graph Modal -->
+                  <div class="modal fade" id="myModalLine" role="dialog" v-if="showGraphModal4">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header"></div>
+                        <div class="modal-body">
+                          <div id="linechartmodal"></div>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-sm" v-on:click="viewGraph(5);" data-toggle="modal" data-target="#myModalReport">Print</button>
+                            <button type="button" class="btn btn-default btn-sm" v-on:click="showGraphModal4=false;" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- App Usage Details Modal -->
+                  <div class="modal fade" id="myModalView" role="dialog" v-if="showModalView">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header"><p>App Usage </p><p>Voucher : <b>{{ vouchName }}</b></p></div>
+                        <div class="modal-body">
+                          <table id="appusagedetails" class="table table-bordered table-striped table-condensed table-hover nowrap" width="100%"></table>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="form-group">
+                            <button type="button" class="btn btn-default btn-sm" v-on:click="showModalView=false;" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Report Modal -->
+                  <div class="modal fade" id="myModalReport" role="dialog" v-if="showReport">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showReport=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Print Vessel Report</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get" autocomplete="off">
+                            <div class="form-group">
+                              <p><b>Filter Option</b></p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;&nbsp;Source</p>
+                              <select class="form-control" id="fltrSource" v-model="reportOpt.Source" v-on:change="checkshowhide();" >
+                                <option v-for="option in reportSource" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                              <p><input type="checkbox" id="chckAllGraph" v-model="dataOpt.allgraphdata" v-on:change="checkalldata();"><b> &nbsp; Graphs</b></p>
+                            </div>
+                            <div class="form-group">
+                              <table style="width:100%">
+                                <tr>
+                                  <td style="font-size:14px; width: 50%;">
+                                    <p>&nbsp;<input type="checkbox" id="chckGraph1" true-value="1" false-value="0" v-model="reportOpt.graph1">&nbsp;&nbsp; Summary of Services</p>
+                                  </td>
+                                  <td style="font-size:13px; width: 50%;">
+                                    <p>&nbsp;<input type="checkbox" id="chckGraph3" true-value="1" false-value="0" v-model="reportOpt.graph3">&nbsp;&nbsp; Vouchers Used & Premium Connections</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="font-size:14px; width: 50%;">
+                                    <p>&nbsp;<input type="checkbox" id="chckGraph2" true-value="1" false-value="0" v-model="reportOpt.graph2">&nbsp;&nbsp; Frequently Used Apps</p>
+                                  </td>
+                                  <td style="font-size:14px; width: 50%;">
+                                    <p>&nbsp;<input type="checkbox" id="chckGraph4" true-value="1" false-value="0" v-model="reportOpt.graph4">&nbsp;&nbsp; Time & Data Usage</p>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                              <p><input type="checkbox" id="chckAllData" v-model="dataOpt.allfieldddata" v-on:change="checkalldata();"><b> &nbsp; Data</b></p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckVoyage" v-model="reportOpt.Voyage" disabled>&nbsp;&nbsp; Voyage</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckJourney" v-model="reportOpt.Journey" disabled>&nbsp;&nbsp; Journey</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckDepDate" v-model="reportOpt.DepDate">&nbsp;&nbsp; Departure Date</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckArrDate" v-model="reportOpt.ArrDate">&nbsp;&nbsp; Arrival Date</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckTimeUsage" v-model="reportOpt.TimeUsage">&nbsp;&nbsp; Time Usage</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckDataUsage" v-model="reportOpt.DataUsage">&nbsp;&nbsp; Data Usage</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckVoucher" v-model="reportOpt.Voucher">&nbsp;&nbsp; Vouchers</p>
+                            </div>
+                            <div v-if="privilage.userrights <= 3">
+                              <div class="form-group">
+                                <p>&nbsp;<input type="checkbox" id="chckFullname" v-model="reportOpt.Fullname">&nbsp;&nbsp; Full Name</p>
+                              </div>
+                              <div class="form-group">
+                                <p>&nbsp;<input type="checkbox" id="chckemailAdd" v-model="reportOpt.emailAdd">&nbsp;&nbsp; E-mail Address</p>
+                              </div>
+                              <div class="form-group">
+                                <p>&nbsp;<input type="checkbox" id="chckmobileno" v-model="reportOpt.mobileno">&nbsp;&nbsp; Mobile Number</p>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckPhone" v-model="reportOpt.Phone">&nbsp;&nbsp; Device Used</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckPlatform" v-model="reportOpt.Platform">&nbsp;&nbsp; OS Platform</p>
+                            </div>
+                            <div class="form-group">
+                              <p>&nbsp;<input type="checkbox" id="chckMACAdd" v-model="reportOpt.MACAdd">&nbsp;&nbsp; MAC Address</p>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                              <p style="font-size:14px;"><b>Print Option</b></p>
+                              <table style="width:50%">
+                                <tr>
+                                  <td style="font-size:14px; width: 40%;">
+                                    <span>&nbsp;Paper Format</span>
+                                    <select class="form-control" id="pSize" v-model="reportOpt.mlayout" v-on:change="" >
+                                      <option v-for="option in printLayout" v-bind:value="option.text">
+                                        {{ option.text }}
+                                      </option>
+                                    </select>
+                                  </td>
+                                </tr>
+                                <tr><td>&nbsp;</td></tr>
+                                <tr>
+                                  <td style="font-size:14px; width: 40%;">
+                                    <span>&nbsp;Orientation</span>
+                                    <select class="form-control" id="vOrient" v-model="reportOpt.vLayoutO" v-on:change="" >
+                                      <option v-for="option in printOrient" v-bind:value="option.value">
+                                        {{ option.text }}
+                                      </option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                            <!-- <div class="form-group">
+                              <p style="font-size:14px;"><b>Margins</b></p>
+                              <table style="width:50%">
+                                <tr>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp;Left  &nbsp;&nbsp;</span></td>
+                                  <td style="font-size:14px; width: 5%;">
+                                    <input type="number" name="nLeft" id="nLeft" class="form-control form-control-lg" min=0 max=30 v-model="reportOpt.mleft">
+                                  </td>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp; mm</span></td>
+                                </tr>
+                                <tr>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp;Right  &nbsp;&nbsp;</span></td>
+                                  <td style="font-size:14px; width: 5%;">
+                                    <input type="number" name="nRight" id="nRight" class="form-control form-control-lg" min=0 max=30 v-model="reportOpt.mright">
+                                  </td>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp; mm</span></td>
+                                </tr>
+                                <tr>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp;Top  &nbsp;&nbsp;</span></td>
+                                  <td style="font-size:14px; width: 5%;">
+                                    <input type="number" name="nTop" id="nTop" class="form-control form-control-lg" min=0 max=30 v-model="reportOpt.mtop">
+                                  </td>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp; mm</span></td>
+                                </tr>
+                                <tr>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp;Bottom  &nbsp;&nbsp;</span></td>
+                                  <td style="font-size:14px; width: 5%;">
+                                    <input type="number" name="nBottom" id="nBottom" class="form-control form-control-lg" min=0 max=30 v-model="reportOpt.mbottom">
+                                  </td>
+                                  <td style="font-size:14px; width: 5%;"><span>&nbsp; mm</span></td>
+                                </tr>
+                              </table>
+                            </div> -->
+
+                            <hr>
+                            <div class="form-group">
+                              <button type="button" id="reportbtn" class="btn btn-primary" v-on:click="showReport=false; printReport();" data-dismiss="modal">Print Preview</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- process Modal -->
+                  <div id="myModalProcess">
+                    <div id="loading-modal">
+                      <div id="loading-modal-content"  style="position:absolute; width:80%">
+                        <p style="color:#000">Loading page, please wait</p>
+                        <p><img src="assets/img/loader.svg" alt=""></p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/voyagerep.js"></script>
+      <!-- <script type="text/javascript" src="assets/js/printThis.js"></script> -->
+      <script>
+        // menu collapsible
+        $('#reportmngt').addClass('mm-active');
+        $('#reportmngt').find('ul').addClass('mm-collapse mm-show');
+        $('#vessrepmngt').find('ul').removeClass('mm-show');
+        $('#usagemngt').find('ul').removeClass('mm-show');
+
+        // for datetime picker
+        $(document).ready(function() {
+          // $('#datetimepicker1').datetimepicker({format:'Y-m-d'});
+          $('#datetimepicker1').datepicker({"dateFormat": "yy-mm-dd"});
+          $('#datetimepicker1').on('change', function(e){
+              $("#datetimepicker1").val(this.value)[0].dispatchEvent(new Event('input'))
+          });
+        });
+        $(document).ready(function() {
+          // $('#datetimepicker2').datetimepicker({format:'Y-m-d'});
+          $('#datetimepicker2').datepicker({"dateFormat": "yy-mm-dd"});
+          $('#datetimepicker2').on('change', function(e){
+              $("#datetimepicker2").val(this.value)[0].dispatchEvent(new Event('input'))
+          });
+        });
+
+        // check menu to display
+        checkMenuPermission();
+        // highlight menu when active
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <link rel="stylesheet" href="./assets/datatables/jquery.dataTables.min.css"/>
+      <script src="./assets/datatables/jquery.dataTables.min.js"></script>
+      <link rel="stylesheet" href="./assets/css/datatable_sort.css"/>
+      <script src="./assets/datatables/input.js"></script>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+    </div>
+</body>
+
+</html>

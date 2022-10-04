@@ -1,0 +1,351 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          padding: 6px 8px;
+          z-index: 1;
+          font-size: 12px;
+        }
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnNews" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>News/Announcements - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-124">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Vessel Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "announce">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">News / Announcements</h1>
+                        <!-- page contents go here -->
+
+                        <div class="row-fluid">
+
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <span>Select Vessel</span>
+                              <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value)">
+                                <option v-for="option in optVess" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <span>Select Source</span>
+                              <!-- <select class="form-control" id="modepartner" v-model="vouchSett.partner" v-on:change="changeStatus(this.value);"> -->
+                              <select class="form-control" id="modeSource" v-model="vesselSetting.newsource" v-on:change="">
+                                <option v-for="option in optStatus" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <span>Date From</span>
+                              <input id="datetimepicker5" type="datetimepicker" class="form-control form-control-lg" v-model="vesselSetting.dateFrom" >
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                              <span>Date To</span>
+                              <input id="datetimepicker6" type="datetimepicker" class="form-control form-control-lg" v-model="vesselSetting.dateTo" >
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                              <span>&nbsp;</span></br>
+                              <button class="btn btn-primary" type="button" id="btnsearch" v-on:click="getAllNews('2')">
+                                <i class="glyphicon glyphicon-filter"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                          <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                              <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(1); getNewDate(); setFocusModal('1');" data-toggle="modal" data-target="#myModalAdd">
+                                  Add News/Announcement</button>
+                              &nbsp;
+                              <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(3);" data-toggle="modal" data-target="#myModalDel" v-bind:disabled="btnDelDisable">
+                                  Delete News/Announcement</button>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                          <div class="col-sm-12 col-md-12 col-lg-12">
+                            <table id="newsdata" class="table table-bordered table-striped table-condensed table-hover" style="width:100%"></table>
+                          </div>
+
+                        </div>
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalAdd" role="dialog" v-if="showAddModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Add News / Announcement</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group">
+                              <span>Vessel Name : <b>{{ vesselSetting.vesselName }}</b></span>
+                            </div>
+                            <div class="form-group">
+                              <span>Title</span>
+                              <input type="text" name="addtitle" id="addtitle" class="form-control form-control-lg"
+                                placeholder="Enter News/Announcement Title" v-on:keyup.enter="setFocus('addbody');" v-model="newsData.title">
+                            </div>
+                            <div class="form-group">
+                              <span>Announcement</span>
+                              <textarea name="addbody" id="addbody" class="form-control form-control-lg"
+                                placeholder="Type Announcement here" v-model="newsData.body"></textarea>
+                            </div>
+                            <div class="form-group">
+                              <span>Author</span>
+                              <input type="text" name="addauthor" id="addauthor" class="form-control form-control-lg"
+                                placeholder="Enter Author of News/Announcement" v-on:keyup.enter="setFocus('datetimepicker1');" v-model="newsData.author">
+                            </div>
+                            <div class="form-group">
+                              <span>Starts On</span>
+                              <input id="datetimepicker1" type="text" class="form-control form-control-lg"
+                                v-on:change="setFocus('datetimepicker2')" v-model="newsData.starts_on" />
+                            </div>
+                            <div class="form-group">
+                              <span>Ends On</span>
+                              <input id="datetimepicker2" type="text" class="form-control form-control-lg"
+                                v-on:change="setFocus('addbtnNews')" v-model="newsData.ends_on" />
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addbtnNews" class="btn btn-primary" v-on:click="showAddModal=false; AddAnnounce()" data-dismiss="modal">Add News / Announcement</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEdit" role="dialog" v-if="showEditModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditModal=false; removeData();" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit News / Announcement</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group">
+                              <span>Vessel Name : <b>{{ vesselSetting.vesselName }}</b></span>
+                            </div>
+                            <div class="form-group">
+                              <span>Title</span>
+                              <input type="text" name="edittitle" id="edittitle" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('editbody');" v-model="currNewsData.title" v-bind:disabled="chckRule">
+                            </div>
+                            <div class="form-group">
+                              <span>Announcement</span>
+                              <textarea rows="8" name="editbody" id="editbody" class="form-control form-control-lg"
+                                v-model="currNewsData.body" v-bind:disabled="chckRule"></textarea>
+                            </div>
+                            <div class="form-group">
+                              <span>Author</span>
+                              <input type="text" name="editauthor" id="editauthor" class="form-control form-control-lg"
+                                v-on:keyup.enter="setFocus('datetimepicker3');" v-model="currNewsData.author" v-bind:disabled="chckRule">
+                            </div>
+                            <div class="form-group">
+                              <span>Starts On</span>
+                              <input id="datetimepicker3" type="text" class="form-control form-control-lg"
+                                v-on:change="setFocus('datetimepicker4')" v-model="currNewsData.starts_on" />
+                            </div>
+                            <div class="form-group">
+                              <span>Ends On</span>
+                              <input id="datetimepicker4" type="text" class="form-control form-control-lg"
+                                v-on:change="setFocus('editbtnNews')" v-model="currNewsData.ends_on" />
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="editbtnNews" class="btn btn-primary"
+                                v-on:click="showEditModal=false; UpdateAnnounce();" data-dismiss="modal" v-bind:disabled="chckRule">Update</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="myModalDel" role="dialog" v-if="showDeleteModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showDeleteModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>News / Announcement</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Delete Author &nbsp;{{ announce.delName }} ?</span>
+                          </div>
+                          <hr>
+                          <button type="button" class="btn btn-danger" v-on:click="showDeleteModal=false; GetCheckValue();" data-dismiss="modal">YES</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary" v-on:click="showDeleteModal=false;" data-dismiss="modal">NO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/news.js"></script>
+      <script>
+        $('#vesselmngt').addClass('mm-active');
+        $('#vesselmngt').find('ul').addClass('mm-collapse mm-show');
+
+        // $(document).ready(function() {
+        //   $('#datetimepicker5').datetimepicker({format:'Y-m-d'});
+        //   $('#datetimepicker5').on('change', function(e){
+        //     $("#datetimepicker5").val(this.value)[0].dispatchEvent(new Event('input'))
+        //   });
+        // });
+        // $(document).ready(function() {
+        //   $('#datetimepicker6').datetimepicker({format:'Y-m-d'});
+        //   $('#datetimepicker6').on('change', function(e){
+        //     $("#datetimepicker6").val(this.value)[0].dispatchEvent(new Event('input'))
+        //   });
+        // });
+        checkMenuPermission();
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <link rel="stylesheet" href="./assets/datatables/jquery.dataTables.min.css"/>
+      <link rel="stylesheet" href="./assets/css/datatable_sort.css"/>
+      <script src="./assets/datatables/jquery.dataTables.min.js"></script>
+      <script src="./assets/datatables/input.js"></script>
+      <!-- <script src="./assets/datatables/datetime.js"></script> -->
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+
+    </div>
+</body>
+
+</html>

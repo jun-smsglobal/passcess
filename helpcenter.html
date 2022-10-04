@@ -1,0 +1,182 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnhelpcenter" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Help - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-124">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Help</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "helpcenter">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Help</h1>
+                        <!-- page contents go here -->
+
+                        <div class="tab">
+                          <button class="tablinks active" onclick="openHelp(event, 'freqask', 'freqask1')">Basic Access FAQs</button>
+                          <button class="tablinks" onclick="openHelp(event, 'fleethotspot', 'fleethotspot1')">Premium Access FAQs</button>
+                          <button class="tablinks" onclick="openHelp(event, 'quickuser', 'quickuser1')">Quick User Guide</button>
+                          <button class="tablinks" onclick="openHelp(event, 'techsupport', 'techsupport1')">Onboard Tech Support</button>
+                          <button class="tablinks" onclick="openHelp(event, 'shorepanel', 'shorepanel1')">Shore Control Panel</button>
+                        </div>
+
+                        <div id="freqask" class="tabcontent" style="display:block">
+                          <iframe id="freqask1" width="100%" height="100%" src="./assets/pdf/2GO Travel's Wi-Fi FAQs 2021 11 05-b.pdf"></iframe>
+                        </div>
+                        <div id="fleethotspot" class="tabcontent">
+                          <iframe id="fleethotspot1" width="100%" height="100%" src="./assets/pdf/Fleet Hotspot FAQs.pdf"></iframe>
+                        </div>
+                        <div id="quickuser" class="tabcontent">
+                          <!-- <div class="col-sm-10 col-md-10 col-lg-10"> -->
+                            <iframe id="quickuser1" width="100%" height="100%" src="./assets/pdf/2GO Travel's WI-FI Quick User Guide 2022-03-12.pdf"></iframe>
+                          <!-- </div> -->
+                        </div>
+                        <div id="techsupport" class="tabcontent">
+                          <iframe id="techsupport1" width="100%" height="100%" src="./assets/pdf/2GO Travel's Wi-Fi Onboard Tech Support 2021 11 05.pdf"></iframe>
+                        </div>
+                        <div id="shorepanel" class="tabcontent">
+                          <iframe id="shorepanel1" width="100%" height="100%" src="./assets/pdf/PassCess Shore Control Panel Manual 2021 11 04.pdf"></iframe>
+                        </div>
+
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script>
+        // menu collapsible
+        $('#helpmngt').addClass('mm-active');
+        $('#helpmngt').find('ul').addClass('mm-collapse mm-show');
+        // function for tablinks
+        function openHelp(evt, helpName, iName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(helpName).style.display = "block";
+          evt.currentTarget.className += " active";
+          document.getElementById(iName).contentDocument.location.reload()
+        };
+        // check menu to display
+        checkMenuPermission();
+        // highlight menu when active
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+
+        document.getElementById("webusername").innerHTML = "Log Out - " + window.localStorage.getItem('supportUser');
+      </script>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+    </div>
+</body>
+
+</html>

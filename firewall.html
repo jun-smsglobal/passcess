@@ -1,0 +1,642 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnFirewall" class="open-menu" style="overflow: visible;">
+<!-- <body data-target="mnFirewall" class="open-menu" style="overflow: visible;"> -->
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Firewall Settings - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-124">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Vessel Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "sett">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Firewall Settings</h1>
+                        <!-- page contents go here -->
+                        <div class="row-fluid">
+                          <!-- <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="input-group">
+                              <span class="input-group-addon">Select Fleet :</span>
+                              <select class="form-control" id="modePartner" v-model="vesselSetting.fleetID" v-on:change="">
+                                <option v-for="option in optFleet" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                          </div> -->
+                          <div class="form-group col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                            <div class="col-sm-8 col-md-8 col-lg-8">
+                              <table style="width: 100%;">
+                                <tr>
+                                  <td>Select Vessel</td>
+                                  <td>
+                                    <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value)">
+                                      <option v-for="option in optVess" v-bind:value="option.value">
+                                        {{ option.text }}
+                                      </option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                        </div>
+
+                      <div class="row-fluid">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                          <!-- <p> Firewall Settings: <a href=""><img src="assets/img/help.png" alt="" width="25" height="25" /></a></p> -->
+                          <p> Firewall Settings:</p>
+
+                          <label for="fw_allowall">Allow All
+                            <input type="radio" id="fw_allowall" value="allowall" v-model="settings.firewall">
+                          </label>&nbsp;&nbsp;
+                          <label for="fw_blockall">Block All
+                            <input type="radio" id="fw_blockall" value="blockall" v-model="settings.firewall">
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-md-12 col-lg-12">
+                        <hr>
+                      </div>
+
+                      <div class="row-fluid">
+                        <div class="col-sm-6 col-md-6 col-lg-6" v-show="btnShow">
+                          <button type="button" class="btn btn-primary btn-sm" v-on:click="showAddModal=true; setFocusModal('1'); setDefaultValue('1'); " data-toggle="modal" data-target="#myModalAddApp">
+                              Add Application
+                          </button>
+                          &nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary btn-sm" v-on:click="showRemoveModal=true; setFocusModal('2'); setDefaultValue('2');" data-toggle="modal" data-target="#myModalRemoveApp">
+                              Remove Application
+                          </button>
+                        </div>
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                          <p>Applications</p>
+                        </div> -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="FBApp">
+                            <img src="assets/img/fb.png" alt="" width="25" height="25" />
+                            <label>Facebook & FB Messenger</label>
+                            <ul v-for="(settvalue, index) in currFacebook" :key="settvalue.appid">
+                              <li>
+                                <div class="form-check">
+                                   <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                      v-on:change="checkAppRule(1,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                      &nbsp; {{ settvalue.appfeatures }}
+                                   </label>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                          <!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="WhatsAppApp">
+                            <img src="assets/img/whatsapp.png" alt="" width="25" height="25" />
+                            <label>WhatsApp</label>
+                            <ul v-for="(settvalue, index) in currWhatsApp" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                  <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                      v-on:change="checkAppRule(2,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                      &nbsp; {{ settvalue.appfeatures }}
+                                  </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div>
+                          <!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="ViberApp">
+                            <img src="assets/img/viber.png" alt="" width="25" height="25" />
+                            <label>Viber</label>
+                            <ul v-for="(settvalue, index) in currViber" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                  <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                        v-on:change="checkAppRule(3,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                        &nbsp; {{ settvalue.appfeatures }}
+                                  </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div><!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="LineApp">
+                            <img src="assets/img/line.png" alt="" width="25" height="25" />
+                            <label>Line</label>
+                            <ul v-for="(settvalue, index) in currLine" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                  <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                        v-on:change="checkAppRule(4,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                        &nbsp; {{ settvalue.appfeatures }}
+                                  </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div><!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="InstaApp">
+                            <img src="assets/img/instagram.png" alt="" width="25" height="25" />
+                            <label>Instagram</label>
+                            <ul v-for="(settvalue, index) in currInsta" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                   <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                        v-on:change="checkAppRule(5,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                        &nbsp; {{ settvalue.appfeatures }}
+                                   </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div><!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="WeChatApp">
+                            <img src="assets/img/wechat.png" alt="" width="25" height="25" />
+                            <label>Wechat</label>
+                            <ul v-for="(settvalue, index) in currWechat" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                   <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                        v-on:change="checkAppRule(6,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                        &nbsp; {{ settvalue.appfeatures }}
+                                   </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div><!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="TwitterApp">
+                            <img src="assets/img/twitter.png" alt="" width="25" height="25" />
+                            <label>Twitter</label>
+                            <ul v-for="(settvalue, index) in currTwitter" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                   <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                        v-on:change="checkAppRule(7,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                        &nbsp; {{ settvalue.appfeatures }}
+                                   </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div><!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="TikTokApp">
+                            <img src="assets/img/tiktok.png" alt="" width="25" height="25" />
+                            <label>TikTok</label>
+                            <ul v-for="(settvalue, index) in currTikTok" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                   <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                        v-on:change="checkAppRule(8,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                        &nbsp; {{ settvalue.appfeatures }}
+                                   </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div><!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" id="YoutubeApp">
+                            <img src="assets/img/youtube.png" alt="" width="25" height="25" />
+                            <label>Youtube</label>
+                            <ul class="" v-for="(settvalue, index) in currYoutube" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                   <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0"
+                                        v-on:change="checkAppRule(9,index,settvalue.appruleenabled); hasChanged=true" v-bind:disabled="chckRule">
+                                        &nbsp; {{ settvalue.appfeatures }}
+                                   </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div>
+                          <!-- End Firewall App -->
+
+                          <!-- Start Firewall App -->
+                          <div class="firewall-app col-sm-4 col-md-4 col-lg-4" style="display:none">
+                            <label>Default</label>
+                            <ul class="" v-for="(settvalue, index) in settings.appsettings" v-if="settvalue.appname=='defaults'" :key="settvalue.appid">
+                             <li>
+                                <div class="form-check">
+                                   <label style="padding-left:5px">
+                                     <input type="checkbox" class="form-check-input" v-model="settvalue.appruleenabled" true-value="1" false-value="0" v-bind:disabled="chckRule">
+                                       &nbsp; {{ settvalue.appfeatures }}
+                                   </label>
+                               </div>
+                             </li>
+                            </ul>
+                          </div><!-- End Firewall App -->
+
+                        </div>
+                      </div>
+                      <!-- <div class="row-fluid">
+                        <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                          <p> Domain Filtering:</p>
+                          <label for="df_allowall">Allow All
+                            <input type="radio" class="form-check-input" id="df_allowall" value="allowall" v-model="settings.domainfiltering" v-on:change="checkRules">
+                          </label>&nbsp;&nbsp;
+                          <label for="df_blockall">Block All
+                            <input type="radio" class="form-check-input" id="df_sblockall" value="blockall" v-model="settings.domainfiltering" v-on:change="checkRules">
+                          </label>
+                        </div>
+                      </div> -->
+
+                      <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                      <div class="col-sm-4 col-md-4 col-lg-4">
+                        <button type="button" class="btn btn-primary btn-sm" v-on:click="showApplyModal=true; selectAdvSettings(settings);"
+                          data-toggle="modal" data-target="#myModalSave" v-show="btnShow">Apply Settings</button>
+                      </div>
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalAddApp" role="dialog" v-if="showAddModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Add Application</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group" v-show="btnShowFB">
+                              <label>
+                                <input type="checkbox" name="chckFB" id="chckFB" class="form-check-input" v-model="newRules.cFacebook" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; Facebook & FB Messenger
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowWA">
+                              <label>
+                                <input type="checkbox" name="chckWhatsApp" id="chckWhatsApp" class="form-check-input" v-model="newRules.cWhatsApp" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; WhatsApp
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowViber">
+                              <label>
+                                <input type="checkbox" name="chckViber" id="chckViber" class="form-check-input" v-model="newRules.cViber" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; Viber
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowLine">
+                              <label>
+                                <input type="checkbox" name="chckLine" id="chckLine" class="form-check-input" v-model="newRules.cLine" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; Line
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowInsta">
+                              <label>
+                                <input type="checkbox" name="chckInsta" id="chckInsta" class="form-check-input" v-model="newRules.cInsta" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; Instagram
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowWeChat">
+                              <label>
+                                <input type="checkbox" name="chckWeChat" id="chckWeChat" class="form-check-input" v-model="newRules.cWechat" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; Wechat
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowTwit">
+                              <label>
+                                <input type="checkbox" name="chckTwitter" id="chckTwitter" class="form-check-input" v-model="newRules.cTwitter" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; Twitter
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowTiktok">
+                              <label>
+                                <input type="checkbox" name="chckTikTok" id="chckTikTok" class="form-check-input" v-model="newRules.cTikTok" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; TikTok
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowYTube">
+                              <label>
+                                <input type="checkbox" name="chckYoutube" id="chckYoutube" class="form-check-input" v-model="newRules.cYoutube" true-value="1" false-value="0"
+                                  v-on:change="btnCheckConfirm('1');">
+                                  &nbsp; Youtube
+                              </label>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                              <button type="button" id="addbtn" class="btn btn-primary btn-sm" data-dismiss="modal"
+                                v-on:click="showAddModal=false; AddAppRule();" v-bind:disabled="btnAppShow">Add Application</button>
+                            </div>
+                            <label>Note : This action will add the app in the firewall</label>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- Remove Modal -->
+                  <div class="modal fade" id="myModalRemoveApp" role="dialog" v-if="showRemoveModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showRemoveModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Remove Application</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group" v-show="btnShowFB">
+                              <label>
+                                <input type="checkbox" name="chckFB" id="chckFB" class="form-check-input" v-model="newRules.cFacebook" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; Facebook & FB Messenger
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowWA">
+                              <label>
+                                <input type="checkbox" name="chckWhatsApp" id="chckWhatsApp" class="form-check-input" v-model="newRules.cWhatsApp" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; WhatsApp
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowViber">
+                              <label>
+                                <input type="checkbox" name="chckViber" id="chckViber" class="form-check-input" v-model="newRules.cViber" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; Viber
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowLine">
+                              <label>
+                                <input type="checkbox" name="chckLine" id="chckLine" class="form-check-input" v-model="newRules.cLine" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; Line
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowInsta">
+                              <label>
+                                <input type="checkbox" name="chckInsta" id="chckInsta" class="form-check-input" v-model="newRules.cInsta" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; Instagram
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowWeChat">
+                              <label>
+                                <input type="checkbox" name="chckWeChat" id="chckWeChat" class="form-check-input" v-model="newRules.cWechat" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; Wechat
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowTwit">
+                              <label>
+                                <input type="checkbox" name="chckTwitter" id="chckTwitter" class="form-check-input" v-model="newRules.cTwitter" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; Twitter
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowTiktok">
+                              <label>
+                                <input type="checkbox" name="chckTikTok" id="chckTikTok" class="form-check-input" v-model="newRules.cTikTok" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; TikTok
+                              </label>
+                            </div>
+                            <div class="form-group" v-show="btnShowYTube">
+                              <label>
+                                <input type="checkbox" name="chckYoutube" id="chckYoutube" class="form-check-input" v-model="newRules.cYoutube" true-value="0" false-value="1"
+                                  v-on:change="btnCheckConfirm('2');">
+                                  &nbsp; Youtube
+                              </label>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                              <button type="button" id="addbtn" class="btn btn-primary btn-sm" data-dismiss="modal"
+                                v-on:click="showRemoveModal=false; AddAppRule();" v-bind:disabled="btnAppShow">Remove Application</button>
+                            </div>
+                            <label>Note : This action will remove the app in the firewall</label>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Confirm Modal -->
+                  <div class="modal fade" id="myModalSave" role="dialog" v-if="showApplyModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showApplyModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Firewall Settings</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Confirm Changes?</span>
+                          </div>
+                          <hr>
+                          <button type="button" class="btn btn-primary" v-on:click="showApplyModal=false; updateAdvSettings();" data-dismiss="modal"> &nbsp; OK &nbsp; </button>
+                          &nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-danger" v-on:click="showApplyModal=false;" data-dismiss="modal">CANCEL</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Message Modal -->
+                  <div class="modal fade" id="myModalMessage" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="returnApp();" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Firewall Settings</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>{{ strMsg }}</span>
+                          </div>
+                          <hr>
+                          <div class="form-group">
+                            <button type="button" class="btn btn-primary" v-on:click="HideModal();" data-dismiss="modal"> &nbsp; YES &nbsp; </button>
+                              &nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-danger" v-on:click="returnApp();" data-dismiss="modal">CANCEL</button>
+                          </div>
+                          <label>Note: Make sure to click the "Apply Settings" button to confirm the changes.</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/firewall.js"></script>
+      <script>
+        $('#vesselmngt').addClass('mm-active');
+        $('#vesselmngt').find('ul').addClass('mm-collapse mm-show');
+
+        checkMenuPermission();
+
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+      <script>
+        // function pageUnloaded()
+        // {
+        //   console.log(hasChanged);
+        //   if(hasChanged) {
+        //     alert("Save changes?");
+        //   }
+        // }
+        // window.addEventListener("unload", pageUnloaded, false);
+        window.addEventListener('beforeunload', function (e) {
+          var confirmMsg = "Save changes?";
+          if(hasChanged) {
+            // Cancel the event as stated by the standard.
+            e.preventDefault();
+            // Chrome requires returnValue to be set.
+            e.returnValue = confirmMsg;
+            return confirmMsg
+          }
+        });
+      </script>
+    </div>
+</body>
+
+</html>

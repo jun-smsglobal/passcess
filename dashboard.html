@@ -1,0 +1,597 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+        .modal-body-wrapper {
+          overflow-y: scroll;
+          height: 70vh;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnVesselList" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Vessel Listing - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <link href="assets/css/bootstrap.css" rel="stylesheet">
+  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/jquery-ui.css" rel="stylesheet">
+  <link href="assets/css/metismenu.css" rel="stylesheet">
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <ul class="sidebar-nav preactmenu">
+        <li class="sidebar-brand">
+          <a href="#">PassCess Control Panel</a>
+        </li>
+      </ul>
+      <nav class="sidebar-nav">
+        <ul class="LeftSidebarMenu" id="menuDynamic">
+          <li id="vouchermngt">
+            <a class="has-arrow" href="javascript:void(0)">Voucher Management</a>
+            <ul>
+              <li id="mnVoucherList"><a href="voucherhist.html" onclick="checkPrivilage(6)">Voucher List</a></li>
+              <li id="mnAllocateVoucher"><a href="allocvoucher.html" onclick="checkPrivilage(7)">Allocate Voucher</a></li>
+              <li id="mnEditVoucher"><a href="editvoucher.html" onclick="checkPrivilage(8)">Edit Voucher</a></li>
+            </ul>
+          </li>
+          <li id="vesselmngt">
+            <a class="has-arrow" href="javascript:void(0)">Vessel Management</a>
+            <ul>
+              <li id="mnVesselList"><a href="dashboard.html" onclick="checkPrivilage(99)">Vessel List</a></li>
+              <li id="mnNetwork"><a href="network.html" onclick="checkPrivilage(1)">Network Settings</a></li>
+              <li id="mnFirewall"><a href="firewall.html" onclick="checkPrivilage(2)">Firewall Settings</a></li>
+              <li id="mnVoyageSked"><a href="voyage.html" onclick="checkPrivilage(3)">Voyage Scheduling</a></li>
+              <li id="mnOnboardUser"><a href="onboarduser.html" onclick="checkPrivilage(21)">Onboard Portal User</a></li>
+              <li id="mnNews"><a href="news.html" onclick="checkPrivilage(23)">News / Announcements</a></li>
+              <li id="mnsupport"><a href="pcpsupport.html" onclick="checkPrivilage(32)">Support Logs</a></li>
+              <li id="mnSurvey"><a href="survey.html" onclick="checkPrivilage(31)">Survey</a></li>
+              <!-- <li id="mnPurchase"><a href="purchasehist.html" onclick="checkPrivilage(34)">Purchase History</a></li>
+              <li id="mnVessGPS"><a href="vessgps.html" onclick="checkPrivilage(35)">Vessel Position</a></li> -->
+            </ul>
+          </li>
+          <li id="reportmngt">
+            <a class="has-arrow" href="javascript:void(0)">Reports</a>
+            <ul>
+              <li id="mnVoyageRep"><a href="voyagerep.html" onclick="checkPrivilage(13)">Voyage Report</a></li>
+              <!-- <li id="mnVesselRep"><a href="vesselrep.html" onclick="checkPrivilage(12)">Vessel Report</a></li> -->
+              <li id="vessrepmngt" aria-expanded="false">
+                <a class="has-arrow" href="javascript:void(0)">Vessel Reports</a>
+                <ul>
+                  <li id="mnVesselRep"><a href="vesselrep.html" onclick="checkPrivilage(12)">Vouchers</a></li>
+                  <li id="mnPurchase"><a href="purchasehist.html" onclick="checkPrivilage(34)">Purchase History</a></li>
+                  <li id="mnVessGPS"><a href="vessgps.html" onclick="checkPrivilage(35)">Positioning</a></li>
+                  <li id="mnTrackRep"><a href="trackrep.html" onclick="checkPrivilage(36)">Network Availability</a></li>
+                </ul>
+              </li>
+              <!-- <li><a href="#" onclick="checkPrivilage(11)">Fleet Report</a></li> -->
+              <!-- <li><a href="#" onclick="checkPrivilage(10)">Partner Report</a></li> -->
+              <li id="usagemngt" aria-expanded="false">
+                <a class="has-arrow" href="javascript:void(0)">App Usage Report</a>
+                <ul>
+                  <li id="mnVoucherRepApp"><a href="userappusage.html" onclick="checkPrivilage(28)">Vouchers</a></li>
+                  <li id="mnVoyageReppApp"><a href="voyageapprep.html" onclick="checkPrivilage(25)">Voyage</a></li>
+                  <li id="mnVesselRepApp"><a href="datarep.html" onclick="checkPrivilage(19)">Vessel</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li id="mnfleetmngt"><a href="fleetmngt.html" onclick="checkPrivilage(17)">Fleet Management</a></li>
+          <li id="mnpartnermngt"><a href="partnermngt.html" onclick="checkPrivilage(16)">Partner Management</a></li>
+          <li id="systemmngt">
+            <a class="has-arrow" href="javascript:void(0)">System Settings</a>
+            <ul>
+              <li id="mnportlist"><a href="philport.html" onclick="checkPrivilage(30)">Port Code List</a></li>
+              <li id="mnappsetting"><a href="domaintools.html" onclick="checkPrivilage(26)">App Settings</a></li>
+              <li id="mnGenerateVoucher"><a href="genvoucher.html" onclick="checkPrivilage(5)">Voucher Settings</a></li>
+              <li id="mnGlobalSett"><a href="globalsetting.html" onclick="checkPrivilage(33)">Global Settings</a></li>
+              <li id="mncontrolpanel"><a href="usermngt.html" onclick="checkPrivilage(14)">Control Panel User</a></li>
+              <!-- <li id="mnwatchdog"><a href="srvcwatchdog.html" onclick="checkPrivilage(29)">Service Watchdog</a></li> -->
+              <li id="mnsystemlog"><a href="systemlog.html" onclick="checkPrivilage(24)">System Logs</a></li>
+              <li id="mnCPUser"><a href="pcpuser.html" onclick="checkPrivilage(9)">User Management</a></li>
+              <!-- <li id="mnpanellog"><a href="#" onclick="checkPrivilage(15)">Control Panel Logs</a></li> -->
+            </ul>
+          </li>
+          <li id="mnhelpcenter"><a href="helpcenter.html" onclick="checkPrivilage(22)">Help</a></li>
+          <!-- <li id="helpmngt">
+            <a class="has-arrow" href="javascript:void(0)">Help</a>
+            <ul>
+              <li id="mnhelpcenter"><a href="#" onclick="checkPrivilage(22)">Help Center</a></li>
+              <li id="mnknowledge"><a href="#" onclick="checkPrivilage(27)">Knowledgebase</a></li>
+            </ul>
+          </li> -->
+        </ul>
+      </nav>
+      <ul class="sidebar-nav logout">
+        <li id="mnlogout">
+          <a href="javascript:void(0)" onclick="checkPrivilage(18)" id="webusername">Log Out - </a>
+        </li>
+      </ul>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-124">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Vessel Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <div class="col-md-5 col-sm-5 col-xs-5"><img class="img-responsive" src="assets/img/smsglobal.png" alt="" style="width:150px; float:left;"></div>
+                  <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                  <div class="col-md-5 col-sm-5 col-xs-5"><img class="img-responsive" src="assets/img/pivotel_logo_main.png" alt="" style="width:125px; float:right"></div>
+                </div>
+                <!-- Header -->
+                <div id = "app">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-md-12 col-lg-12">
+                      <h1 class="form-title">Vessel List</h1>
+                        <!-- page contents go here -->
+                        <div class="row-fluid" v-show="btnShow">
+                          <!-- <div class="col-sm-3 col-md-3 col-lg-3">
+                            <span>Select Fleet :</span>
+                            <select class="form-control" id="modeFleet" v-model="vesselSetting.fleetID" v-on:change="">
+                              <option v-for="option in optFleet" v-bind:value="option.value">
+                                {{ option.text }}
+                              </option>
+                            </select>
+                          </div> -->
+
+                          <!-- search vessel -->
+                          <!-- <div class="col-sm-6 col-md-6 col-lg-6">
+                              <span>Search Vessel [Name, ID or MAC Address] :</span>
+                              <input type="text" class="form-control" id="modeVessid" placeholder="Search" maxlength="75" v-on:keydown.enter="getVessels(vesselSetting.tempID)" v-model="vesselSetting.tempID">
+                          </div> -->
+
+                          <!-- <div class="col-sm-3 col-md-3 col-lg-3">
+                            <span>&nbsp;</span></br>
+                            <button class="btn btn-primary" type="button" id="btnsearch" v-on:click="getVessels(vesselSetting.tempID)">
+                              Search &nbsp; <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                          </div> -->
+                          <!-- <div class="col-sm-3 col-md-3 col-lg-3">&nbsp;</div> -->
+                          <div class="col-sm-3 col-md-3 col-lg-3">
+                            <!-- <span>&nbsp;</span> -->
+                            <button class="btn btn-primary btn-sm" type="button" id="btnregvess" v-on:click="checkUser(1); getFleetList(); setFocusModal('1');" data-toggle="modal" data-target="#myModalAdd">Register Vessel</button>
+                          </div>
+                      </div>
+                      <div class="col-sm-12 col-md-12 col-lg-12" v-show="btnShow"><hr></div>
+                      <div class="row-fluid">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <table id="vesseldata" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                        </div>
+                      </div>
+
+                      <!-- <div class="row-fluid">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                          <div class="tableFixHead">
+                            <table id="myTable" class="table table-striped table-condensed table-hover">
+                            <thead>
+                              <tr class="bg-primary">
+                                <th v-on:click="sortTable(0);">Vessel ID</th>
+                                <th v-on:click="sortTable(1);">Vessel Name</th>
+                                <th v-on:click="sortTable(2);">MAC Address</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="(Vess, index) in pageVessels" :key="Vess.vesselid">
+                                <td width="30%">
+                                <div class="dropdown">
+                                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">{{ Vess.vesselid }}
+                                  <span class="caret"></span></button>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="#" v-on:click="processVessel(Vess.vesselid, Vess.fleetid); checkPrivilage(1);">Network settings</a></li>
+                                    <li><a href="#" v-on:click="processVessel(Vess.vesselid, Vess.fleetid); checkPrivilage(2)">Firewall settings</a></li>
+                                    <li><a href="#" v-on:click="processVessel(Vess.vesselid, Vess.fleetid); checkPrivilage(3)">Voyage Scheduling</a></li>
+                                    <li class="divider">&nbsp</li>
+                                    <li><a href="#" v-on:click="processVessel(Vess.vesselid, Vess.fleetid); checkPrivilage(21)">Onboard Portal User</a></li>
+                                    <li><a href="#" v-on:click="processVessel(Vess.vesselid, Vess.fleetid); checkPrivilage(23)">News/Announcement</a></li>
+                                    <li class="divider">&nbsp</li>
+                                    <li><a href="#" v-on:click="checkUser(2); selectVessel(Vess, index); getFleetList();" data-toggle="modal" data-target="#myModalEdit">Edit Vessel Info</a></li>
+                                    <li><a href="#" v-on:click="checkUser(3); selectVessel(Vess, index);" data-toggle="modal" data-target="#myModalDel">Deactivate Vessel</a></li>
+                                  </ul>
+                                </div>
+                                </td>
+                                <td>{{ Vess.vesselname }}</td>
+                                <td>{{ Vess.mac_address }}</td>
+                              </tr>
+                            </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="content col-sm-12 col-md-12 col-lg-12">
+                          <nav aria-label="Page navigation example">
+                            <ul class="pagination" v-for="cnt in setPages(vessels, perPage)">
+                              <li class="page-item">
+                                <a class="page-link" href="#" v-on:click="pageCount(vessels, cnt)">{{ cnt }}</a>
+                              </li>
+                            </ul>
+                          </nav>
+                        </div>
+                      </div> -->
+
+                      <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalAdd" role="dialog" v-if="showAddModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Register New Vessel</b></h5>
+                        </div>
+                        <div class="modal-body-wrapper">
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <!-- <div class="form-group">
+                              <span>Vessel ID</span>
+                              <input type="text" name="vesselid" id="addvesselid" class="form-control form-control-lg" placeholder="Vessel ID (Auto)" v-model="newVessel.vesselid" disabled>
+                            </div> -->
+                            <div class="form-group">
+                              <span>Vessel IMO No.</span>
+                              <input type="text" name="addimo" id="addimo" class="form-control form-control-lg" placeholder="Vessel IMO No." v-model="newVessel.imo" maxlength="7" >
+                            </div>
+                            <div class="form-group">
+                              <span>Select Fleet Name</span>
+                              <select class="form-control" id="modeFleet" v-model="newVessel.fleetid" v-on:change="setFocus('addvessname')">
+                                <option v-for="option in optFleetList" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <span>Vessel Name</span>
+                              <input type="text" name="addvessname" id="addvessname" class="form-control form-control-lg" placeholder="Vessel Name" v-on:keyup.enter="setFocus('addmac_address')" v-model="newVessel.vesselname">
+                            </div>
+                            <div class="form-group">
+                              <span>MAC Address</span>
+                              <input type="text" name="addmac_address" id="addmac_address" class="form-control form-control-lg" placeholder="MAC Address" v-on:keyup.enter="setFocus('addlandpage')" v-model="newVessel.mac_address">
+                            </div>
+                            <div class="form-group">
+                              <span>Landing Page</span>
+                              <input type="text" name="addlandpage" id="addlandpage" class="form-control form-control-lg" placeholder="Landing Page" v-on:keyup.enter="setFocus('addtimeallow')" v-model="newVessel.landingpage">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Starts (mins) Before ETD in Leg 1</span>
+                              <input type="number" name="addtimeallow" id="addtimeallow" class="form-control form-control-lg" placeholder="Service Starts (mins) Before ETD in Leg 1" v-on:keyup.enter="setFocus('addpercent')" v-model="newVessel.time_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Restarts (percent) Before ETD; Multi-Leg</span></br>
+                              <input type="number" name="addpercent" id="addpercent" class="form-control form-control-lg" placeholder="Service restarts (percent) Before ETD; Multi-Leg" v-on:keyup.enter="setFocus('addrestartallow')" v-model="newVessel.percentage_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Allowance Restarts (mins) Before ETD; Multi-Leg</span></br>
+                              <input type="number" name="addrestartallow" id="addrestartallow" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editcutoff')" v-model="currVessel.reboot_time_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Stops (mins) After ETA in last Leg</span>
+                              <input type="number" name="addcutoff" id="addcutoff" class="form-control form-control-lg" placeholder="Service Stops (mins) Before ETA" v-on:keyup.enter="setFocus('addreconnect')" v-model="newVessel.eta_time_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Premium to Basic Reconnect Time (mins)</span>
+                              <input type="number" name="addreconnect" id="addreconnect" class="form-control form-control-lg" v-on:keyup.enter="setFocus('addradius')" v-model="newVessel.p2breconnecttime">
+                            </div>
+                            <div class="form-group">
+                              <span>Radius Domain</span>
+                              <input type="text" name="addradius" id="addradius" class="form-control form-control-lg" v-on:keyup.enter="setFocus('addswitchon')" v-model="newVessel.radius_domain">
+                            </div>
+                            <div class="form-group">
+                              <p>Bandwidth Limiter Switch</p>
+                              <label for="addswitchon">ON
+                                <input type="radio" name="addswitchon" id="addswitchon" class="form-check-input" value="1" v-model="newVessel.bandwidth_status" v-on:change="switch_process(1)">
+                              </label>&nbsp;&nbsp;
+                              <label for="addswitchoff">OFF
+                                <input type="radio" name="addswitchoff" id="addswitchoff" class="form-check-input" value="0" v-model="newVessel.bandwidth_status" v-on:change="switch_process(1)">
+                              </label>
+                            </div>
+                            <div class="form-group">
+                              <span>Bandwidth Limiter (KBps)</span>
+                              <input type="number" name="addbandwidth" id="addbandwidth" class="form-control form-control-lg" v-on:keyup.enter="setFocus('adddload')" v-model="newVessel.bandwidth_value">
+                            </div>
+                            <div class="form-group">
+                              <span>Business Download Bandwidth Limiter (KBps)</span>
+                              <input type="number" name="adddload" id="adddload" class="form-control form-control-lg" min=0 max=999999999 v-on:keyup.enter="setFocus('adduload')" v-model="newVessel.busnet_dload">
+                            </div>
+                            <div class="form-group">
+                              <span>Business Upload Bandwidth Limiter (KBps)</span>
+                              <input type="number" name="adduload" id="adduload" class="form-control form-control-lg" min=0 max=999999999 v-on:keyup.enter="setFocus('addcapacity')" v-model="newVessel.busnet_uload">
+                            </div>
+                            <div class="form-group">
+                              <span>Passenger Capacity</span>
+                              <input type="number" name="addcapacity" id="addcapacity" class="form-control form-control-lg" min=0 max=999999999 v-on:keyup.enter="setFocus('addbtn')" v-model="newVessel.capacity">
+                            </div>
+                            <div class="form-group">
+                              <span>Watchdog Services :</span><br>
+                                <div v-for="(app_service, appname) in newVessel.watchdog_services">
+                                  <input type="checkbox" true-value="1" false-value="0" v-model="newVessel.watchdog_services[appname]" >
+                                    {{ appname }}
+                                </div><br>
+                            </div>
+                            <div class="form-group">
+                              <!-- <span>Unique ID :</span> -->
+                              <input type="hidden" name="uniqueid" id="adduniqueid" class="form-control form-control-lg" placeholder="Unique ID" v-model="newVessel.unique_id">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addbtn" class="btn btn-primary" v-on:click="showAddModal=false; addVessel();" data-dismiss="modal">Register</button>
+                            </div>
+                          </form>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEdit" role="dialog" v-if="showEditModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditModal=false; removeData();" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit Vessel Info</b></h5>
+                        </div>
+                        <div class="modal-body-wrapper">
+                        <div class="modal-body">
+                          <form action="#" method="get">
+                            <div class="form-group">
+                              <span>Vessel IMO No.</span>
+                              <input type="text" name="editimo" id="editimo" class="form-control form-control-lg" v-model="currVessel.imo" maxlength="7" v-bind:readonly="btnInputDisable">
+                            </div>
+                            <div class="form-group">
+                              <label>Vessel ID</label>
+                              <input type="text" name="editvesselid" id="editvesselid" class="form-control form-control-lg" v-model="currVessel.vesselid" readonly>
+                            </div>
+                            <div class="form-group">
+                              <span>Select Fleet Name</span>
+                              <select class="form-control" id="modeFleet" v-model="currVessel.fleetid" v-on:change="setFocus('editvessname')">
+                                <option v-for="option in optFleetList" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <span>Vessel Name</span>
+                              <input type="text" name="editvessname" id="editvessname" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editmac_address')" v-model="currVessel.vesselname">
+                            </div>
+                            <div class="form-group">
+                              <span>MAC Address</span>
+                              <input type="text" name="editmac_address" id="editmac_address" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editlandpage')" v-model="currVessel.mac_address">
+                            </div>
+                            <div class="form-group">
+                              <span>Landing Page</span>
+                              <input type="text" name="editlandpage" id="editlandpage" class="form-control form-control-lg" v-on:keyup.enter="setFocus('edittimeallow')" v-model="currVessel.landingpage">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Starts (mins) Before ETD in Leg 1</span>
+                              <input type="number" name="edittimeallow" id="edittimeallow" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editpercentallow')" v-model="currVessel.time_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Restarts (percent) Before ETD; Multi-Leg</span></br>
+                              <input type="number" name="editpercentallow" id="editpercentallow" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editrestartallow')" v-model="currVessel.percentage_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Allowance Restarts (mins) Before ETA; Multi-Leg</span></br>
+                              <input type="number" name="editrestartallow" id="editrestartallow" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editcutoff')" v-model="currVessel.reboot_time_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Service Stops (mins) After ETA in last Leg</span>
+                              <input type="number" name="editcutoff" id="editcutoff" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editreconnect')" v-model="currVessel.eta_time_allowance">
+                            </div>
+                            <div class="form-group">
+                              <span>Premium to Basic Reconnect Time (mins)</span>
+                              <input type="number" name="editreconnect" id="editreconnect" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editradius')" v-model="currVessel.p2breconnecttime">
+                            </div>
+                            <div class="form-group">
+                              <span>Radius Domain</span>
+                              <input type="text" name="editradius" id="editradius" class="form-control form-control-lg" v-on:keyup.enter="setFocus('editswitchon')" v-model="currVessel.radius_domain">
+                            </div>
+                            <div class="form-group">
+                              <p>Bandwidth Limiter Switch</p>
+                              <label for="editswitchon">ON
+                                <input type="radio" name="editswitchon" id="editswitchon" class="form-check-input" value="1" v-model="currVessel.bandwidth_status" v-on:change="switch_process(2)">
+                              </label>&nbsp;&nbsp;
+                              <label for="editswitchoff">OFF
+                                <input type="radio" name="editswitchoff" id="editswitchoff" class="form-check-input" value="0" v-model="currVessel.bandwidth_status" v-on:change="switch_process(2)">
+                              </label>
+                            </div>
+                            <div class="form-group">
+                              <span>Bandwidth Limiter (KBps)</span>
+                              <input type="number" name="editbandwidth" id="editbandwidth" class="form-control form-control-lg" min=0 max=999999999 v-on:keyup.enter="setFocus('editdload')" v-model="currVessel.bandwidth_value">
+                            </div>
+                            <div class="form-group">
+                              <span>Business Download Bandwidth Limiter (KBps)</span>
+                              <input type="number" name="editdload" id="editdload" class="form-control form-control-lg" min=0 max=999999999 v-on:keyup.enter="setFocus('edituload')" v-model="currVessel.busnet_dload">
+                            </div>
+                            <div class="form-group">
+                              <span>Business Upload Bandwidth Limiter (KBps)</span>
+                              <input type="number" name="edituload" id="edituload" class="form-control form-control-lg" min=0 max=999999999 v-on:keyup.enter="setFocus('editcapacity')" v-model="currVessel.busnet_uload">
+                            </div>
+                            <div class="form-group">
+                              <span>Passenger Capacity</span>
+                              <input type="number" name="editcapacity" id="editcapacity" class="form-control form-control-lg" min=0 max=999999999 v-on:keyup.enter="setFocus('editbtn')" v-model="currVessel.capacity">
+                            </div>
+                            <div class="form-group">
+                              <span>Watchdog Services :</span>
+                                  <br>
+                                  <div v-for="(app_service, appname) in currVessel.watchdog_services">
+                                    <input type="checkbox" true-value="1" false-value="0" v-model="currVessel.watchdog_services[appname]" v-on:change="checkData();" >
+                                      {{ appname }}
+                                  </div>
+                                  <br>
+                            </div>
+                            <div class="form-group">
+                              <!-- <span>Unique ID :</span> -->
+                              <input type="hidden" name="edituniqueid" id="edituniqueid" class="form-control form-control-lg" v-on:keyup.enter="" v-model="currVessel.unique_id" disabled>
+                            </div>
+                          </form>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                          <div class="form-group">
+                            <button type="button" id="editbtn" class="btn btn-primary" v-on:click="showEditModal=false; updateVessel();" data-dismiss="modal">Update</button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="myModalDel" role="dialog" v-if="showDeleteModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showDeleteModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Vessel Management</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Deactivate &nbsp;{{ currVessel.vesselname }} ?</span>
+                          </div>
+                          <hr>
+                          <button type="button" class="btn btn-danger" v-on:click="showDeleteModal=false; deleteVessel();" data-dismiss="modal">YES</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary" v-on:click="showDeleteModal=false;" data-dismiss="modal">NO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="assets/js/jquery-3.js"></script>
+      <script src="assets/js/jquery-ui.js"></script>
+      <script src="assets/js/bootstrap.js"></script>
+      <script src="assets/js/sweetalert.js"></script>
+      <script src="assets/js/blockui.js"></script>
+      <script src="assets/js/metis.js"></script>
+      <script src="assets/js/scriptapp.js"></script>
+
+      <script type="text/javascript" src="assets/js/main.js"></script>
+      <script src="assets/js/vue.js"></script>
+      <script src="assets/js/axios.min.js"></script>
+      <script src="assets/js/moment.min.js"></script>
+      <script src="assets/js/jquery.datetimepicker.full.min.js"></script>
+      <script type="text/javascript" src="assets/js/dashboard.js"></script>
+      <script>
+        // menu collapsible
+        $('#vesselmngt').addClass('mm-active');
+        $('#vesselmngt').find('ul').addClass('mm-collapse mm-show');
+
+        // check menu to display
+        checkMenuPermission();
+        // highlight menu when active
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <link rel="stylesheet" href="./assets/datatables/jquery.dataTables.min.css"/>
+      <link rel="stylesheet" href="./assets/css/datatable_sort.css"/>
+      <script src="./assets/datatables/jquery.dataTables.min.js"></script>
+      <script src="./assets/datatables/input.js"></script>
+      <script src="./assets/datatables/datetime.js"></script>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+
+    </div>
+</body>
+
+</html>

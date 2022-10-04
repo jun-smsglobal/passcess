@@ -1,0 +1,572 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnNetwork" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Network Settings - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Vessel Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "appnetwork">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Network Settings</h1>
+                        <!-- page contents go here -->
+                        <div class="row-fluid">
+                          <!-- <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="input-group">
+                              <span class="input-group-addon">Select Fleet :</span>
+                              <select class="form-control" id="modeFleet" v-model="vesselSetting.fleetID" v-on:change="">
+                                <option v-for="option in optFleet" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                          </div> -->
+
+                          <div class="form-group col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                            <div class="col-sm-8 col-md-8 col-lg-8">
+                              <table style="width: 100%;">
+                                <tr>
+                                  <td>Select Vessel</td>
+                                  <td>
+                                    <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value)">
+                                      <option v-for="option in optVess" v-bind:value="option.value">
+                                        {{ option.text }}
+                                      </option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                          <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                        </div>
+
+                        <!-- <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div> -->
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                          <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#UpdateLAN">LAN</a></li>
+                            <li><a data-toggle="tab" href="#UpdateDNS">DNS</a></li>
+                            <li><a data-toggle="tab" href="#UpdateWANA">Basic Access</a></li>
+                            <li><a data-toggle="tab" href="#UpdateWANB">Premium Access</a></li>
+                            <!-- <li><a data-toggle="tab" href="#UpdateBIZ">BIZ</a></li> -->
+                            <li><a data-toggle="tab" href="#UpdateSpeed">Speed Test</a></li>
+                            <li><a data-toggle="tab" href="#GPSSett">GPS Settings</a></li>
+                          </ul>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                          <div class="tab-content">
+
+                            <div id="UpdateLAN" class="tab-pane fade in active">
+                              <form action="#" method="get" v-for="sett in settings">
+                              <h4 class="form-title">LAN IP Range - Basic & Premium</h4>
+
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-4 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Network :</td>
+                                      <td style="width:80%"><input id="netid" type="text" class="form-control" v-model="sett.settings.LAN.network" v-on:click="highlight('netid')" readonly></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Subnet :</td>
+                                      <td style="width:80%"><input type="text" class="form-control" v-model="sett.settings.LAN.subnet" readonly></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">UAM :</td>
+                                      <td style="width:80%"><input type="text" class="form-control" v-model="sett.settings.LAN.uam" readonly></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-3 col-md-3 col-lg-3" style="display:none">
+                                  <button type="button" class="btn btn-primary btn-sm float-right" v-on:click="selectSetting(sett); updateLAN();" v-bind:disabled="btnShow">Save</button>
+                                </div>
+                              </div>
+                              </form>
+                            </div>
+
+                            <div id="UpdateDNS" class="tab-pane fade">
+                              <form action="#" method="get" v-for="sett in settings">
+                              <h4 class="form-title">DNS</h4>
+
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:30%">Coova DNS 1 :</td>
+                                      <td style="width:70%"><input type="text" class="form-control" v-model="sett.settings.DNS.DNS1"></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:30%">Coova DNS 2 :</td>
+                                      <td style="width:70%"><input type="text" class="form-control" v-model="sett.settings.DNS.DNS2"></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:30%">DNS 1 :</td>
+                                      <td style="width:70%"><input type="text" class="form-control" v-model="sett.settings.DNS.DNS3"></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:30%">DNS 2 :</td>
+                                      <td style="width:70%"><input type="text" class="form-control" v-model="sett.settings.DNS.DNS4"></td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;"><hr></div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                  <!-- <button type="button" class="btn btn-primary btn-sm float-right" v-on:click="selectSetting(sett); updateDNS();" v-bind:disabled="btnShow">Save</button> -->
+                                  <button type="button" class="btn btn-primary btn-sm float-right" v-on:click="selectSetting(sett); updateDNS();" v-show="btnShow">Save</button>
+                                </div>
+                              </div>
+                              </form>
+                            </div>
+
+                            <div id="UpdateWANA" class="tab-pane fade">
+                              <form action="#" method="get" v-for="sett in settings">
+                              <h4 class="form-title">WAN A (Basic Access)</h4>
+
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Mode :</td>
+                                      <td style="width:80%">
+                                        <select class="form-control" id="modeA" v-model="sett.settings.WAN_A.mode" v-on:change="CheckInput(sett.settings);">
+                                          <option v-for="option in options" v-bind:value="option.value">
+                                            {{ option.text }}
+                                          </option>
+                                        </select>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">IP Address :</td>
+                                      <td style="width:80%">
+                                        <input type="text" id="wanA_add" class="form-control" v-model="sett.settings.WAN_A.address" v-bind:disabled="chckWANA">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Netmask :</td>
+                                      <td style="width:80%">
+                                        <input type="text" id="wanA_net" class="form-control" v-model="sett.settings.WAN_A.netmask" v-bind:disabled="chckWANA">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Gateway :</td>
+                                      <td style="width:80%">
+                                        <input type="text" id="wanA_gateway" class="form-control" v-model="sett.settings.WAN_A.gateway" v-bind:disabled="chckWANA">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;"><hr></div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                  <button type="button" class="btn btn-primary btn-sm float-right" v-on:click="selectSetting(sett); updateSetting();" v-show="btnShow">Save</button>
+                                </div>
+                              </div>
+                              </form>
+                            </div>
+
+                            <div id="UpdateWANB" class="tab-pane fade">
+                              <form action="#" method="get" v-for="sett in settings">
+                              <h4 class="form-title">WAN B (Premium Access)</h4>
+
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Mode :</td>
+                                      <td style="width:80%">
+                                        <select class="form-control" id="modeB" v-model="sett.settings.WAN_B.mode" v-on:change="CheckInput(sett.settings);">
+                                          <option v-for="option in options" v-bind:value="option.value">
+                                            {{ option.text }}
+                                          </option>
+                                        </select>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">IP Address :</td>
+                                      <td style="width:80%">
+                                        <input type="text" class="form-control" v-model="sett.settings.WAN_B.address" v-bind:disabled="chckWANB">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Netmask :</td>
+                                      <td style="width:80%">
+                                        <input type="text" class="form-control" v-model="sett.settings.WAN_B.netmask" v-bind:disabled="chckWANB">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Gateway :</td>
+                                      <td style="width:80%">
+                                        <input type="text" class="form-control" v-model="sett.settings.WAN_B.gateway" v-bind:disabled="chckWANB">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;"><hr></div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                  <button type="button" class="btn btn-primary btn-sm float-right" v-on:click="selectSetting(sett); updateSetting();" v-show="btnShow">Save</button>
+                                </div>
+                              </div>
+                              </form>
+                          </div>
+
+                          <!-- <div id="UpdateBIZ" class="tab-pane fade">
+                            <form action="#" method="get" v-for="sett in settings">
+                            <h4 class="form-title">BIZ</h4>
+                            </form>
+                          </div> -->
+
+                          <div id="UpdateSpeed" class="tab-pane fade">
+                            <form action="#" method="">
+                            <h4 class="form-title">Speed Test</h4>
+
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                              <div class="col-sm-6 col-md-6 col-lg-6">
+                                <table style="width: 100%;">
+                                  <tr>
+                                    <td style="width:20%">IPERF Server :</td>
+                                    <td style="width:80%">
+                                      <input type="text" class="form-control" v-model="newiperfSett.iperf_settings.iperf_server" >
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                              <div class="col-sm-6 col-md-6 col-lg-6">
+                                <table style="width: 100%;">
+                                  <tr>
+                                    <td style="width:20%">Key :</td>
+                                    <td style="width:80%">
+                                      <input type="text" class="form-control" v-model="newiperfSett.iperf_settings.key" >
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                              <div class="col-sm-6 col-md-6 col-lg-6">
+                                <table style="width: 100%;">
+                                  <tr>
+                                    <td style="width:20%">Port :</td>
+                                    <td style="width:80%">
+                                      <input type="number" class="form-control" v-model="newiperfSett.iperf_settings.port" min="0" max="999999">
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                              <div class="col-sm-6 col-md-6 col-lg-6">
+                                <table style="width: 100%;">
+                                  <tr>
+                                    <td style="width:20%">Mode :</td>
+                                    <td style="width:80%">
+                                      <select class="form-control" id="modeB" v-model="newiperfSett.iperf_settings.spdtest_mode" v-on:change="">
+                                        <option v-for="option in optMode" v-bind:value="option.value">
+                                          {{ option.text }}
+                                        </option>
+                                      </select>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;"><hr></div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                              <div class="col-sm-3 col-md-3 col-lg-3">
+                                <button type="button" class="btn btn-primary btn-sm float-right" v-on:click="updateIPERFSett();" v-show="btnShow">Save</button>
+                              </div>
+                            </div>
+
+                            </form>
+                          </div>
+
+                            <div id="GPSSett" class="tab-pane fade">
+                              <form action="#" method="get">
+                              <h4 class="form-title">GPS Settings</h4>
+
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">IP Address :</td>
+                                      <td style="width:80%">
+                                        <input type="text" class="form-control" v-model="newGPSSett.gps_settings.term_addr" >
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Port :</td>
+                                      <td style="width:80%">
+                                        <input type="number" class="form-control" v-model="newGPSSett.gps_settings.term_port" min="0" max="999999">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Polling Time (secs):</td>
+                                      <td style="width:80%">
+                                        <input type="number" class="form-control" v-model="newGPSSett.gps_settings.poll_time" min="0" max="120000">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">&nbsp;</div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                  <table style="width: 100%;">
+                                    <tr>
+                                      <td style="width:20%">Path :</td>
+                                      <td style="width:80%">
+                                        <input type="text" class="form-control" v-model="newGPSSett.gps_settings.log">
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;"><hr></div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                  <button type="button" class="btn btn-primary btn-sm float-right" v-on:click="updateGPSSett();" v-show="btnShow">Save</button>
+                                </div>
+                              </div>
+
+                              </form>
+                            </div>
+
+                        </div>  <!-- end tab-content -->
+                      </div>
+
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/network.js"></script>
+      <script>
+        $('#vesselmngt').addClass('mm-active');
+        $('#vesselmngt').find('ul').addClass('mm-collapse mm-show');
+
+        $(document).ready(function(){
+          $(".nav-tabs a").click(function(){
+            $(this).tab('show');
+          });
+        });
+
+        checkMenuPermission();
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+
+    </div>
+</body>
+
+</html>

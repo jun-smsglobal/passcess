@@ -1,0 +1,519 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<!-- Header file -->
+
+<body data-target="mnCPUser" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Network Settings - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">System Settings</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "appuser">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Control Panel User</h1>
+                        <!-- page contents go here -->
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                          <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#userListTab">User Management</a></li>
+                            <li><a data-toggle="tab" href="#userRoleTab">User Role</a></li>
+                            <li><a data-toggle="tab" href="#userPermissionTab">Rights / Permissions</a></li>
+                          </ul>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                          <div class="tab-content">
+
+                            <div id="userListTab" class="tab-pane fade in active">
+                              <h4 class="form-title">User Management</h4>
+                              <div class="row-fluid">
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow">
+                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(1); setFocusModalUser('1');" data-toggle="modal" data-target="#myModalReg">
+                                      Register User</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(3);" data-toggle="modal" data-target="#myModalDelUser" v-bind:disabled="btnDelDisUser">
+                                      Deactivate</button>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow"><hr></div>
+                              <div class="row-fluid">
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                  <table id="userData" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end tab user list -->
+
+                            <div id="userRoleTab" class="tab-pane fade">
+                              <h4 class="form-title">User Role</h4>
+                              <div class="row-fluid">
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow">
+                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(4); setFocusModalRole('1');" data-toggle="modal" data-target="#myModalAddRole">
+                                      Add Role</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(6);" data-toggle="modal" data-target="#myModalDelRole" v-bind:disabled="btnDelDisRole">
+                                      Delete Role</button>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow"><hr></div>
+                              <div class="row-fluid">
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                  <table id="roleData" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end tab user role -->
+
+                            <div id="userPermissionTab" class="tab-pane fade">
+                              <h4 class="form-title">Rights / Permissions</h4>
+                              <div class="row-fluid">
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow">
+                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(7); setFocusModalPermi('1')" data-toggle="modal" data-target="#myModalAddPermi">
+                                      Add Permission</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary btn-sm" v-on:click="checkUser(9);" data-toggle="modal" data-target="#myModalDelPermi" v-bind:disabled="btnDelDisPermi">
+                                      Delete Permission</button>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;" v-show="btnShow"><hr></div>
+                              <div class="row-fluid">
+                                <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                  <table id="permiData" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end tab permission -->
+
+                        </div>  <!-- end tab-content -->
+                      </div>
+
+                        <!-- end of page content  -->
+                    </div>
+                  </div>
+
+                  <!-- user list -->
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalReg" role="dialog" v-if="showRegModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showRegModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Register New Account</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <!-- <form action="#" method="get" autocomplete="off"> -->
+                            <div class="form-group">
+                              <span>Fullname</span>
+                              <input type="text" name="addusername" id="addusername" class="form-control form-control-lg"
+                                placeholder="Fullname" v-model="newUser.name" v-on:keyup.enter="setFocus('addemail')">
+                            </div>
+                            <div class="form-group">
+                              <span>E-Mail Address</span>
+                              <input type="text" name="addemail" id="addemail" class="form-control form-control-lg"
+                                placeholder="E-Mail Address" v-model="newUser.email" v-on:keyup.enter="setFocus('addpassword')">
+                            </div>
+                            <div class="form-group">
+                              <span>Password</span>
+                              <input type="password" name="addpassword" id="addpassword" class="form-control form-control-lg"
+                                placeholder="Password" v-model="newUser.password" v-on:keyup.enter="setFocus('addcompany')">
+                            </div>
+                            <div class="form-group">
+                              <span>Company</span>
+                              <input type="text" name="addcompany" id="addcompany" class="form-control form-control-lg"
+                                placeholder="Company" v-model="newUser.company" v-on:keyup.enter="setFocus('addvessel')">
+                            </div>
+                            <div class="form-group">
+                              <span>Vessel to be manage</span>
+                              <input type="text" name="addvessel" id="addvessel" class="form-control form-control-lg"
+                                placeholder="Vessel to be manage" v-model="newUser.vessel" v-on:keyup.enter="setFocus('addposition')">
+                            </div>
+                            <div class="form-group">
+                              <span>Position</span>
+                              <input type="text" name="addposition" id="addposition" class="form-control form-control-lg"
+                                placeholder="Position" v-model="newUser.position" v-on:keyup.enter="setFocus('addUserbtn')">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addUserbtn" class="btn btn-primary" v-on:click="showRegModal=false; regUser();" data-dismiss="modal">Register Account</button>
+                            </div>
+                          <!-- </form> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- Approved Modal -->
+                  <div class="modal fade" id="myModalEditUser" role="dialog" v-if="showEditUserModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditUserModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Register New Account</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <!-- <form action="#" method="get" autocomplete="off"> -->
+                            <div class="form-group">
+                              <span>Fullname</span>
+                              <input type="text" name="editname" id="editname" class="form-control form-control-lg"
+                                placeholder="Fullname" v-model="currUserList.name" v-on:keyup.enter="setFocus('editemail')" readonly>
+                            </div>
+                            <div class="form-group">
+                              <span>Approved by</span>
+                              <input type="text" name="editemail" id="editemail" class="form-control form-control-lg"
+                                placeholder="Approved by" v-model="currUserList.approved_by" v-on:keyup.enter="setFocus('editrolelist')" readonly>
+                            </div>
+                            <div class="form-group">
+                              <span>Role</span>
+                              <select class="form-control" id="editrolelist" v-model="currUserList.role" v-on:change="">
+                                <option v-for="opt in currRoleList" v-bind:value="opt.name">
+                                  {{ opt.name }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="editUserbtn" class="btn btn-primary" v-on:click="showEditUserModal=false; approveUser();" data-dismiss="modal">Approved</button>
+                            </div>
+                          <!-- </form> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- user role -->
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalAddRole" role="dialog" v-if="showRoleModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showRoleModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Add New Role</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <!-- <form action="#" method="get" autocomplete="off"> -->
+                            <div class="form-group">
+                              <span>Role</span>
+                              <input type="text" name="addrolename" id="addrolename" class="form-control form-control-lg"
+                                placeholder="Role" v-model="newRole.role" v-on:keyup.enter="setFocus('addrolebtn')">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addrolebtn" class="btn btn-primary" v-on:click="showRoleModal=false; AddUserRole();" data-dismiss="modal">Add Role</button>
+                            </div>
+                          <!-- </form> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEditRole" role="dialog" v-if="showEditRoleModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditRoleModal=false;" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit Role</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <!-- <form action="#" method="get" autocomplete="off"> -->
+                            <!-- <div class="form-group">
+                              <input type="hidden" name="editid" id="editid" class="form-control form-control-lg" v-model="currRoleData.id" disabled>
+                            </div> -->
+                            <div class="form-group">
+                              <span>Role</span>
+                              <input type="text" name="editrole" id="grantrole" class="form-control form-control-lg"
+                                v-model="grantRole.role" v-on:keyup.enter="setFocus('')" disabled>
+                            </div>
+                            <div class="form-group">
+                              <table width="100%">
+                                <tr>
+                                  <td width="45%">
+                                    <!-- <select class="form-control" id="editactivepermi" v-model="temppermission" v-on:change="handleChange($event);" multiple> -->
+                                    <select class="form-control" id="editactivepermi" v-on:change="" multiple>
+                                      <option v-for="opt in roleactive" v-bind:value="opt.permission_id">
+                                        {{ opt.name }}
+                                      </option>
+                                    </select>
+                                  </td>
+                                  <td width="10%">
+                                    <table width="100%">
+                                      <tr><td width="50%" align="center">
+                                        <button type="button" id="" class="btn btn-primary btn-sm" style="height:30px;width:28px;padding:1px"
+                                          v-on:click="addDataRole();"><span class="glyphicon glyphicon-backward"></span></button>
+                                      </td></tr>
+                                      <tr><td width="50%" align="center">&nbsp;</td></tr>
+                                      <tr><td width="50%" align="center">
+                                        <button type="button" id="" class="btn btn-primary btn-sm" style="height:30px;width:28px;padding:1px;"
+                                          v-on:click="removeDataRole();" ><span class="glyphicon glyphicon-forward"></span></button>
+                                      </td></tr>
+                                    </table>
+                                  </td>
+                                  <td width="45%">
+                                    <select class="form-control" id="editpermi" v-on:change="" multiple>
+                                      <option v-for="option in currentPermi" v-bind:value="option.permission_id">
+                                        {{ option.name }}
+                                      </option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+
+                            <div class="form-group">
+                              <button type="button" id="editrolebtn" class="btn btn-primary" v-on:click="showEditRoleModal=false; EditUserRole();" data-dismiss="modal">Update</button>
+                            </div>
+                          <!-- </form> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="myModalDelRole" role="dialog" v-if="showDelRoleModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showDelRoleModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Fleet Management</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Delete &nbsp;{{ delName }} ?</span>
+                          </div>
+                          <hr>
+                          <button type="button" class="btn btn-danger" v-on:click="showDelRoleModal=false; DelRole();" data-dismiss="modal">YES</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary" v-on:click="showDelRoleModal=false;" data-dismiss="modal">NO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- permission -->
+                  <!-- Add Modal -->
+                  <div class="modal fade" id="myModalAddPermi" role="dialog" v-if="showPermiModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showPermiModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Add New Permission</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <!-- <form action="#" method="get" autocomplete="off"> -->
+                            <div class="form-group">
+                              <span>Permission</span>
+                              <input type="text" name="addperminame" id="addperminame" class="form-control form-control-lg"
+                                placeholder="Permission" v-model="newPermi.permission" v-on:keyup.enter="setFocus('addpermibtn')">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="addpermibtn" class="btn btn-primary" v-on:click="showPermiModal=false; AddUserPermi();" data-dismiss="modal">Add Permission</button>
+                            </div>
+                          <!-- </form> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEditPermi" role="dialog" v-if="showEditPermiModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditPermiModal=false;" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit Permission</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <!-- <form action="#" method="get" autocomplete="off"> -->
+                            <div class="form-group">
+                              <input type="text" name="editid" id="editid" class="form-control form-control-lg" v-model="currPermiData.id" disabled>
+                            </div>
+                            <div class="form-group">
+                              <span>Role</span>
+                              <input type="text" name="editpermi" id="editpermi" class="form-control form-control-lg"
+                                v-model="currPermiData.name" v-on:keyup.enter="setFocus('editpermibtn')">
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="editpermibtn" class="btn btn-primary" v-on:click="showEditPermiModal=false; EditUserPermi();" data-dismiss="modal">Update</button>
+                            </div>
+                          <!-- </form> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- Delete Modal -->
+                  <div class="modal fade" id="myModalDelPermi" role="dialog" v-if="showDelPermiModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showDelPermiModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Permission</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Delete &nbsp;{{ delName }} ?</span>
+                          </div>
+                          <hr>
+                          <button type="button" class="btn btn-danger" v-on:click="showDelPermiModal=false; DelPermi();" data-dismiss="modal">YES</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="button" class="btn btn-primary" v-on:click="showDelPermiModal=false;" data-dismiss="modal">NO</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end app -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+      </div>
+      <!-- /#wrapper -->
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <?php include('footer.php');?>
+      <script type="text/javascript" src="assets/js/pcpuser.js"></script>
+      <script>
+        $('#systemmngt').addClass('mm-active');
+        $('#systemmngt').find('ul').addClass('mm-collapse mm-show');
+
+        $(document).ready(function(){
+          $(".nav-tabs a").click(function(){
+            $(this).tab('show');
+          });
+        });
+
+        checkMenuPermission();
+        var BodyEl = document.getElementsByTagName('body');
+        var menuObj = document.getElementById(BodyEl[0].dataset.target);
+        menuObj.classList.add('current-active');
+      </script>
+      <link rel="stylesheet" href="./assets/datatables/jquery.dataTables.min.css"/>
+      <link rel="stylesheet" href="./assets/css/datatable_sort.css"/>
+      <script src="./assets/datatables/jquery.dataTables.min.js"></script>
+      <script src="./assets/datatables/input.js"></script>
+      <script>
+        AttachEvent(document, 'click', ResetTime);
+        AttachEvent(document, 'mousemove', ResetTime);
+        AttachEvent(document, 'keypress', ResetTime);
+        AttachEvent(window, 'load', ResetTime);
+
+        try {
+          _localStorage = window.localStorage;
+        }
+        catch (ex) {
+        }
+
+        _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+      </script>
+
+    </div>
+</body>
+
+</html>

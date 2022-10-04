@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+      <link rel="manifest" href="fav/site.webmanifest">
+      <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+      <meta name="msapplication-TileColor" content="#da532c">
+      <meta name="theme-color" content="#ffffff">
+
+      <!-- Bootstrap CSS -->
+      <!-- <link rel="stylesheet" href="vendors/bootstrap/css/bootstrap.min.css"> -->
+      <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+      <link rel="stylesheet" href="vendors/fontawesome-free-5.14.0-web/css/all.min.css">
+      <link rel="stylesheet" href="vendors/metismenu-master/metisMenu.min.css">
+      <link rel="stylesheet" href="assets/css/login.css">
+      <style>
+        body {
+          background-image: url('assets/img/background.jpg');
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: 100% 100%;
+        }
+        .btn-secondary.custom-btn {
+           background-color: #989D9D;
+           border-color: #989D9D;
+        }
+        .btn-secondary.custom-btn:hover{
+          background-color: #7B7D7D;
+          border-color: #7B7D7D;
+        }
+
+        .btn-primary.custom-btn-login {
+          color: #fff;
+          background-color: #007bff;
+          border-color: #007bff;
+        }
+        .btn-primary.custom-btn-login:hover{
+          background-color: #0069d9;
+          border-color: #0069d9;
+        }
+
+        .modal-body-wrapper {
+          overflow-y: scroll;
+          height: 60vh;
+        }
+        .modal-dialog {
+            /* text-align: left; */
+            max-width: 100%;
+            width: auto !important;
+            display: inline-block;
+        }
+      </style>
+      <link rel="stylesheet" href="tom_assets/background.css">
+
+      <title>Login - PassCess Control Panel</title>
+   </head>
+
+
+   <body>
+      <div class="container-fluid">
+         <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4" style="padding:0 5%">
+            <div class="login-screen" id="login-screen">
+
+              <div id="applogin">
+              <form action="javascript:void(0)" method="post" autocomplete="off">
+                <div class="mb-3 text-center border-bottom-1">
+                  <p class="font-weight-bold" style="font-size:16px;font-weight:bold;color:#FFF">PassCess Management Portal</p>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                <div class="mb-3">
+                  <label for="username">Username</label>
+                  <input id="loguser" type="text" class="form-control" placeholder="Username" v-model="loginData.webuser" v-on:keyup.enter="document.getElementById('logpass').focus();">
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                <div class="mb-3">
+                  <label for="password">Password</label>
+                  <input id="logpass" type="password" class="form-control" placeholder="Password" v-model="loginData.webpass" v-on:keyup.enter="loginUser()">
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                <div class="mb-3">
+                  <button id="logbtn" type="button" class="btn btn-block btn-primary custom-btn-login" v-on:click="loginUser()">Login &nbsp;<i class="fas fa-unlock-alt"></i></button>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                <!-- <div class="mb-3" style="text-align:center">
+                  <a href="#" target="_blank">Forgot Password?</a>
+                </div>
+                <div class="mb-3"><hr style="background-color:#337ab7"></div>
+                <div class="mb-3" style="text-align:center">
+                  <a href="register.html" target="_blank" class="btn btn-secondary custom-btn" style="color:white;">Register New Account</a>
+                </div> -->
+                <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                <!-- <div class="mb-3" style="text-align: center;">
+                  <span>By registering an account you agree to our <a href="#" role="button"
+                    v-on:click="showPolicy=true;" data-toggle="modal" data-target="#myModal" style="color:#0095da;" id="myPolicy">Privacy Policy.</a></span>
+                </div> -->
+                <div class="col-sm-12 col-md-12 col-lg-12">&nbsp;</div>
+                <!-- <div class="mb-3">
+                  <p style="text-align:right;color:red;" v-if="loginMsg">{{ loginMsg }}</p>
+                </div> -->
+              </form>
+
+              <!--  Policy Modal -->
+              <div class="modal fade" id="myModal" role="dialog" v-if="showPolicy" style="color:black">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" v-on:click="showPolicy=false" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <h5 class="modal-title" style="font-weight:bold;font-size:16px">PassCess Onshore Control Panel Privacy Policy</h5>
+                    </div> <!-- end modal header -->
+                    <div class="modal-body-wrapper">
+                    <div id="onBegin" class="modal-body">
+                      <table width="100%" style="font-size:13px">
+                        <tbody>
+                        <tr>
+                          <td align="justify">This Privacy Policy describes PassCess Onshore Control Panel’s policies and procedures on the collection,
+                            use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.
+                            We use Your Personal data to provide and improve the Service.  By using the Service,
+                            You agree to the collection and use of information in accordance with this Privacy Policy.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td style="font-size:14px"><b>Interpretation and Definitions</b></td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Interpretation</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">The words of which the initial letter is capitalized have meanings defined under the following conditions.
+                            The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Definitions</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">For the purposes of this Privacy Policy:</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Account</b> means User Account, a unique account created for You to access our Service or parts of our Service.</td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Affiliate</b> means an entity that controls, is controlled by or is under common control with a party,
+                            where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Company</b> (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to SMSGlobal Ltd.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Country</b> refers to the Philippines.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Device</b> means any device that can access the Service such as a computer, a cellphone or a digital tablet.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Information</b> means all the information that is available for viewing, editing, and managing in the Service.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Partner</b> means Client Partner, the company which the Account is affiliated with.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Personal Data</b> is any information that relates to the Account.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Service</b> refers to the PassCess Onshore Control Panel.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Service Provider</b> means any natural or legal person who processes the data on behalf of the Company.
+                            It refers to third-party companies or individuals employed by the Company to facilitate the Service,
+                            to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>Usage Data</b> refers to data collected automatically,
+                            either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>You</b> means the individual accessing or using the Service, or the company,
+                            or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.
+                          </td>
+                        </tr>
+
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td style="font-size:14px"><b>Collecting and Using Your Personal Data</b></td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Types of Data Collected</b></td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Personal Data</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">While using Our Service,
+                            We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You.
+                            Personally identifiable information may include, but is not limited to:
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;<strong>Email address</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;<strong>First name and last name</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;<strong>Phone number</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;<strong>Usage Data</strong>
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Usage Data</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">Usage Data is collected automatically when using the Service.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">Usage Data may include information such as Your Device's Internet Protocol address (e.g., IP address),
+                            browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages,
+                            unique device identifiers and other diagnostic data.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">When You access the Service by or through a mobile device,
+                            We may collect certain information automatically, including, but not limited to,
+                            the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device,
+                            Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Use of Your Personal Data</b></td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">The Company may use Personal Data for the following purposes:
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>To provide and maintain our Service,</b> including to monitor the usage of our Service.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>To manage Your Account:</b> to manage Your registration as a user of the Service.
+                            The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>For the performance of a contract:</b> the development, compliance and undertaking of the purchase contract for the products,
+                            items or services You have purchased or of any other contract with Us through the Service.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>To contact You:</b> To contact You by email, telephone calls, SMS,
+                            or other equivalent forms of electronic communication,
+                            such as a mobile application's push notifications regarding updates or informative communications related to the functionalities,
+                            products or contracted services, including the security updates, when necessary or reasonable for their implementation.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>To provide You</b> with news, special offers and general information about other goods,
+                            services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>To manage Your requests:</b> To attend and manage Your requests to Us.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>For business transfers:</b> We may use Your Personal Data to evaluate or conduct a merger,
+                            divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets,
+                            whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding,
+                            in which Personal Data held by Us about our Service users is among the assets transferred.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>For other purposes:</b> We may use Your Personal Data for other purposes,
+                            such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service,
+                            products, services, marketing and your experience.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><i>We may share Your Personal Data in the following situations:<i></td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>With Service Providers:</b> We may share Your Personal Data with Service Providers to monitor and analyze the use of our Service, to contact You.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>For business transfers:</b> We may share or transfer Your Personal Data in connection with, or during negotiations of,
+                            any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>With Affiliates:</b> We may share Your Personal Data with Our affiliates,
+                            in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries,
+                            joint venture partners or other companies that We control or that are under common control with Us.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>With business partners:</b> We may share Your Personal Data with Our business partners to offer You certain products,
+                            services or promotions.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>With other users:</b> when You share Personal Data or otherwise interact in the public areas with other users,
+                            such information may be viewed by all users and may be publicly distributed outside.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&#8226;&nbsp;<b>With Your consent:</b> We may disclose Your Personal Data for any other purpose with Your consent.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Retention of Your Personal Data</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy.
+                            We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example,
+                            if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">The Company will also retain Usage Data for internal analysis purposes.
+                            Usage Data is generally retained for a shorter period of time,
+                            except when this data is used to strengthen the security or to improve the functionality of Our Service,
+                            or We are legally obligated to retain this data for longer time periods.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Transfer of Your Personal Data</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">Your Personal Data is processed at the Company's operating offices and in any other places where the parties involved in the processing are located.
+                            It means that this Personal Data may be transferred to — and maintained on — computers located outside of Your state, province,
+                            country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">Your consent to this Privacy Policy followed by Your submission of such Personal Data represents Your agreement to that transfer.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this
+                            Privacy Policy and no transfer of Your Personal Data will take place to an organization or a
+                            country unless there are adequate controls in place including the security of Your data and other personal information.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td style="font-size:14px"><b>Disclosure of Your Personal Data</b></td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Business Transactions</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred.
+                            We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Law enforcement</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">Under certain circumstances, the Company may be required to disclose
+                            Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g., a court or a government agency).
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Other legal requirements</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;Comply with a legal obligation
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;Protect and defend the rights or property of the Company
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;Prevent or investigate possible wrongdoing in connection with the Service
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;Protect the personal safety of Users of the Service or the public
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="justify">&nbsp;&nbsp;&#8226;&nbsp;Protect against legal liability
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Security of Your Personal Data</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet,
+                            or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data,
+                            We cannot guarantee its absolute security.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Treatment of the Information</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">You undertake to treat all the Information directly or indirectly disclosed as
+                            strictly confidential and will not without obtaining the prior written consent of Company disclose any part of the Information to any third party.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">If You leaves employment of the Company or Partner,
+                            You must cease using the Service immediately, and must inform the Company or Partner of Your departure.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Links to Other Websites</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">Our Service may contain links to other websites that are not operated by Us.
+                            If You click on a third-party link, You will be directed to that third party's site.
+                            We strongly advise You to review the Privacy Policy of every site You visit.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">We have no control over and assume no responsibility for the content,
+                            privacy policies or practices of any third-party sites or services.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Changes to this Privacy Policy</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">We may update Our Privacy Policy from time to time.
+                            We will notify You of any changes by posting the new Privacy Policy on this page.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">We will let You know via email and/or a prominent notice on Our Service,
+                            prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy.
+                          </td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td align="justify">You are advised to review this Privacy Policy periodically for any changes.
+                            Changes to this Privacy Policy are effective when they are posted on this page.
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                          <td><b>Contact Us</b></td>
+                        </tr>
+                        <tr>
+                          <td align="justify">If you have any questions about this Privacy Policy, You can contact us by email: support@passcess.com
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                      <div class="form-group">
+                        <!-- <button type="button" class="btn btn-outline-default" style="float:left;" v-on:click="OnTop();">TOP</button> -->
+                        <!-- <button type="button" class="btn btn-outline-default" v-on:click="OnTop();">Top</button> -->
+                        <button type="button" class="btn btn-outline-danger" v-on:click="showPolicy=false;" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end modal -->
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-4"></div>
+         </div>
+      </div>
+
+    <div class="text-center company-logo">
+      <div class="">
+        <img class="" src="assets/img/smsg_logo_w.png" alt="">
+        <img class="" src="assets/img/pivotel_footer_logo.png" alt="">
+      </div>
+    </div>
+
+    <?php include('footer.php');?>
+    <script type="text/javascript" src="assets/js/login.js"></script>
+   </body>
+</html>

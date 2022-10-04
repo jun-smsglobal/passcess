@@ -1,0 +1,426 @@
+<html lang="en">
+
+<!-- Header file -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/jquery.datetimepicker.min.css" /> -->
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="fav/favicon-16x16.png">
+    <link rel="manifest" href="fav/site.webmanifest">
+    <link rel="mask-icon" href="fav/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style type="text/css">
+        body,
+        html {
+            overflow: hidden;
+        }
+
+        #loading-modal {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: -moz-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+            /* IE6-9 fallback on horizontal gradient */
+            /*================*/
+            z-index: 9999;
+        }
+
+        #loading-modal-content {
+            width: 175px;
+            margin: 15% auto;
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<!-- Header file -->
+
+<body data-target="mnVoucherList" class="open-menu" style="overflow: visible;">
+  <div id="loading-modal">
+    <div id="loading-modal-content">
+      <p style="color:#000">Loading page, please wait</p>
+      <p><img src="assets/img/loader.svg" alt=""></p>
+    </div>
+  </div>
+  <title>Voucher List - PassCess Control Panel</title>
+
+  <!-- Bootstrap -->
+  <?php include('css.php');?>
+
+  <div id="wrapper" class="toggled">
+    <!-- #sidebar-wrapper -->
+    <div id="sidebar-wrapper">
+      <?php include('menubar.php');?>
+    </div>
+    <!-- #sidebar-wrapper -->
+
+    <!-- #menu-toggle -->
+    <div id="menu-toggle" class="side-bar-btn"><i id="menu-toggle" class="glyphicon glyphicon-option-vertical"></i></div>
+    <!-- #menu-toggle -->
+
+    <!-- page-content-wrapper -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-124">
+          <div style="height: 0px"></div>
+            <div class="panel panel-default" style="position: static;">
+              <div class="panel-heading">
+                <small class="pull-left">Voucher Management</small>
+                <small class="pull-right">PassCess</small>
+                <div class="clearfix"></div>
+              </div>
+              <div class="panel-body">
+                <!-- Header -->
+                <div class="row-fluid">
+                  <?php include('logo.php');?>
+                </div>
+                <!-- Header -->
+                <div id = "vouchhist">
+                  <div class="row-fluid" id="main-page-content">
+                    <div class="col-lg-12 col-md-12">
+                      <h1 class="form-title">Voucher List</h1>
+                        <!-- page contents go here -->
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                          <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#PremiumVouch">PREMIUM</a></li>
+                            <li><a data-toggle="tab" href="#BasicVouch">BASIC</a></li>
+                          </ul>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                          <div class="tab-content">
+                            <!-- premium voucher -->
+                            <div id="PremiumVouch" class="tab-pane fade in active">
+                              <div class="panel-body">
+                                <div class="col-sm-4 col-md-4 col-lg-4" style="padding: 0;">
+                                  <span>Vessel List</span>
+                                  <select class="form-control" id="modeVessel" v-model="vesselSetting.vesselID" v-on:change="changeVesselID(this.value);" >
+                                    <option v-for="option in optVess" v-bind:value="option.value">
+                                      {{ option.text }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                  <span>Date From</span>
+                                  <input id="datetimepicker3" type="text" class="form-control form-control-lg" v-model="vesselSetting.dateFrom" >
+                                </div>
+                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                  <span>Date To</span>
+                                  <input id="datetimepicker4" type="text" class="form-control form-control-lg" v-model="vesselSetting.dateTo" >
+                                </div>
+                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                  <span>&nbsp;</span></br>
+                                  <button class="btn btn-primary" style="height:35px" type="button" id="btnsearch" v-on:click="getAllPremium();">
+                                    <i class="glyphicon glyphicon-filter"></i>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                <table id="premiumdata" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                              </div>
+                            </div>
+
+                            <!-- basic voucher -->
+                            <div id="BasicVouch" class="tab-pane fade">
+                              <div class="panel-body">
+                                <!-- <div id="barchart" style="width: 90%; height: 30%;"></div>
+                                <br>
+                                <button class="btn btn-primary btn-sm" type="button" v-on:click="getDataGraph(vouchSett.vouchStatus, vouchSett.partner, vouchSett.dateFrom, vouchSett.dateTo );">Refresh Graph</button> -->
+
+                              <div class="col-sm-4 col-md-4 col-lg-4" style="padding: 0;">
+                                <span>Select Voucher</span>
+                                <!-- <select class="form-control" id="modeStat" v-model="vouchSett.vouchStatus" v-on:change="changeStatus(this.value)"> -->
+                                <select class="form-control" id="modeStat" v-model="vouchSett.vouchStatus">
+                                  <option v-for="option in optStatus" v-bind:value="option.value">
+                                    {{ option.text }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="col-sm-4 col-md-4 col-lg-4">
+                                <span>Select Partner</span>
+                                <!-- <select class="form-control" id="modepartner" v-model="vouchSett.partner" v-on:change="changeStatus(this.value);"> -->
+                                <select class="form-control" id="modepartner" v-model="vouchSett.partner" v-on:change="getFleet();">
+                                  <option v-for="option in optpartner" v-bind:value="option.value">
+                                    {{ option.text }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="col-sm-4 col-md-4 col-lg-4">
+                                <span>Select Fleet</span>
+                                <select class="form-control" id="modefleet" v-model="vouchSett.fleet" v-on:change="getSelectedPartner();">
+                                  <option v-for="option in optFleet" v-bind:value="option.value">
+                                    {{ option.text }}
+                                  </option>
+                                </select>
+                              </div>
+
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;"><hr></div>
+                              <div class="col-sm-12 col-md-12 col-lg-12" style="padding: 0;">
+                                <div class="col-sm-4 col-md-4 col-lg-4" style="padding: 0;">
+                                  <span>Date From</span>
+                                  <input id="datetimepicker1" type="datetimepicker" class="form-control form-control-lg" v-model="vouchSett.dateFrom" >
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                  <span>Date To</span>
+                                  <input id="datetimepicker2" type="datetimepicker" class="form-control form-control-lg" v-model="vouchSett.dateTo" >
+                                </div>
+                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                  <span>&nbsp;</span></br>
+                                  <button class="btn btn-primary" style="height:35px" type="button" id="btnsearch" v-on:click="getVoucherQry(vouchSett.vouchStatus, vouchSett.partner);">
+                                    <i class="glyphicon glyphicon-filter"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12"><hr></div>
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                              <table id="vouchdatahist" class="table table-bordered table-striped table-condensed table-hover" width="100%"></table>
+                            </div>
+                          </div>
+
+                          </div>
+                        </div>
+                        <!-- end of page content  -->
+
+                  <!-- View Modal -->
+                  <div class="modal fade" id="myModalView" role="dialog" v-if="showModalView">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Voucher Allocation Info</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Allocated by User</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.username" readonly>
+                          </div>
+                          <div class="form-group">
+                            <span>Vessel</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.vesselname" readonly>
+                          </div>
+                          <div class="form-group">
+                            <span>Fleet</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.fleetname" readonly>
+                          </div>
+                          <div class="form-group">
+                            <span>Partner</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.partner" readonly>
+                          </div>
+                          <div class="form-group">
+                            <button type="button" id="closebtn" class="btn btn-primary" v-on:click="showModalView=false;" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- View Modal Vouch Used -->
+                  <div class="modal fade" id="myModalUsed" role="dialog" v-if="showModalUsed">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showAddModal=false" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Voucher Usage Info</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <span>Vessel Name</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.vesselname" readonly>
+                          </div>
+                          <div class="form-group">
+                            <span>Full Name</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.userfullname" readonly>
+                          </div>
+                          <div class="form-group">
+                            <span>Mobile Number</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.user_mobile" readonly>
+                          </div>
+                          <div class="form-group">
+                            <span>User Email Address</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.user_email" readonly>
+                          </div>
+                          <div class="form-group">
+                            <span>Mobile OS</span>
+                            <input type="text" class="form-control form-control-lg" v-model="currViewVoucher.detected_mobile" readonly>
+                          </div>
+                          <div class="form-group">
+                            <button type="button" id="closebtn" class="btn btn-primary" v-on:click="showModalUsed=false;" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+                  <!-- Edit Modal -->
+                  <div class="modal fade" id="myModalEdit" role="dialog" v-if="showEditModal">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" v-on:click="showEditModal=false; hideAllCust();" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title"><b>Edit Voucher</b></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form action="#" method="get" autocomplete="off">
+                            <div class="form-group">
+                              <span>Serial Number</span>
+                              <input type="text" name="serial" id="editserial" class="form-control form-control-lg" v-model="currVoucher.vouchers" disabled>
+                            </div>
+                            <div class="form-group">
+                              <span>Time (hrs)</span>
+                              <select class="form-control form-control-lg" id="edittime" v-model="currVoucher.vouchertime" v-on:change="selectTime();" v-bind:disabled="chckRule">
+                                <option v-for="option in opttime" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                              <div class="form-group">
+                                <div id="myTime" style="display:none">
+                                  <input id="setTime" type="text" class="form-control" maxlength="2" v-model="custData.vtime" onkeypress="return AllowOnlyNumbers(event);">
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="form-group">
+                              <span>Data (MB)</span>
+                              <select class="form-control form-control-lg" id="editdata" v-model="currVoucher.voucherdata" v-on:change="selectMBData();" v-bind:disabled="chckRule">
+                                <option v-for="option in optdata" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                              <div class="form-group">
+                                <div id="myData" style="display:none">
+                                  <input id="setData" type="text" class="form-control" maxlength="5" v-model="custData.vdataTemp" @blur="formatData();" onkeypress="return AllowOnlyNumbers(event);">
+                                  <input type="text" name="number" style="display:none;">
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="form-group">
+                              <span>Partner</span>
+                              <select class="form-control form-control-lg" id="modepartneredit" v-model="currVoucher.voucherpartner" v-bind:disabled="chckRule">
+                                <option v-for="option in optPartnerEdit" v-bind:value="option.value">
+                                  {{ option.text }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <button type="button" id="editbtn" class="btn btn-primary" v-on:click="showEditModal=false; updateVoucher();" data-dismiss="modal" v-bind:disabled="chckRule">Update</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                  <!-- process Modal -->
+                  <div id="myModalProcess">
+                    <div id="loading-modal">
+                      <div id="loading-modal-content"  style="position:absolute; width:80%">
+                        <p style="color:#000">Loading page, please wait</p>
+                        <p><img src="assets/img/loader.svg" alt=""></p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end modal -->
+
+                </div>
+                <!-- end vouch -->
+
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <?php include('footer.php');?>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.min.js"></script> -->
+    <script type="text/javascript" src="assets/js/voucherhist.js"></script>
+    <script type="text/javascript" src="assets/js/numeral.min.js"></script>
+    <script>
+      $('#vouchermngt').addClass('mm-active');
+      $('#vouchermngt').find('ul').addClass('mm-collapse mm-show');
+
+      // for datetime picker
+      $(document).ready(function() {
+        // $('#datetimepicker1').datetimepicker({format:'Y-m-d'});
+        $('#datetimepicker3').datepicker({"dateFormat": "yy-mm-dd"});
+        $('#datetimepicker3').on('change', function(e){
+            $("#datetimepicker3").val(this.value)[0].dispatchEvent(new Event('input'))
+        });
+      });
+      $(document).ready(function() {
+        // $('#datetimepicker2').datetimepicker({format:'Y-m-d'});
+        $('#datetimepicker4').datepicker({"dateFormat": "yy-mm-dd"});
+        $('#datetimepicker4').on('change', function(e){
+            $("#datetimepicker4").val(this.value)[0].dispatchEvent(new Event('input'))
+        });
+      });
+
+      checkMenuPermission();
+
+      var BodyEl = document.getElementsByTagName('body');
+      var menuObj = document.getElementById(BodyEl[0].dataset.target);
+      menuObj.classList.add('current-active')
+    </script>
+
+    <link rel="stylesheet" href="./assets/datatables/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="./assets/css/datatable_sort.css"/>
+    <script src="./assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="./assets/datatables/input.js"></script>
+    <script>
+      AttachEvent(document, 'click', ResetTime);
+      AttachEvent(document, 'mousemove', ResetTime);
+      AttachEvent(document, 'keypress', ResetTime);
+      AttachEvent(window, 'load', ResetTime);
+
+      try {
+        _localStorage = window.localStorage;
+      }
+      catch (ex) {
+      }
+
+      _idleSecondsTimer = window.setInterval(CheckIdleTime, 1000);
+    </script>
+
+    <!-- <link rel="stylesheet" href="./assets/datatables/dataTables.min.css"/>
+    <script src="./assets/datatables/dataTables.min.js"></script> -->
+
+     <!-- if enable buttons  -->
+    <!-- <script src="./assets/datatables/dataTables.buttons.min.js"></script>
+    <script src="./assets/datatables/jszip.min.js"></script>
+    <script src="./assets/datatables/pdfmake.min.js"></script>
+    <script src="./assets/datatables/vfs_fonts.js"></script>
+    <script src="./assets/datatables/buttons.html5.min.js"></script>
+    <script src="./assets/datatables/buttons.print.min.js"></script>
+    <link rel="stylesheet" href="./assets/datatables/buttons.dataTables.min.css"/> -->
+
+  </div>
+</body>
+
+</html>
