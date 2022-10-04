@@ -1,0 +1,39 @@
+html,body{
+   height: 100vh;
+   /* https://uigradients.com/#VisionsofGrandeur */
+   background: rgb(71,108,144);
+   background: linear-gradient(180deg, rgba(71,108,144,1) 0%, rgba(3,134,191,1) 27%, rgba(43,134,168,1) 44%, rgba(124,134,121,1) 78%, rgba(171,134,94,0.9920343137254902) 95%, rgba(204,134,75,1) 100%, rgba(249,134,49,1) 100%, rgba(19,124,188,1) 100%);
+}
+
+
+.login-screen{
+   color:#fff;
+   margin-top: calc(20vh);
+   padding:32px 23px;
+   /* border: 1px solid #ccc; */
+   background:rgba(192, 192, 192, 0.5);
+   -webkit-border-radius: 30px;
+   -webkit-border-top-right-radius: 5px;
+   -webkit-border-bottom-left-radius: 5px;
+   -moz-border-radius: 30px;
+   -moz-border-radius-topright: 5px;
+   -moz-border-radius-bottomleft: 5px;
+   border-radius: 30px;
+   border-top-right-radius: 5px;
+   border-bottom-left-radius: 5px;
+}
+
+.company-logo{
+   position: absolute;
+   bottom:0;
+   width: 100%;
+   padding: 15px;
+}
+.company-logo img{
+   margin: 0 10px;
+}
+@media(max-width:500px) {
+  .company-logo{
+     position: inherit;
+  }
+}
