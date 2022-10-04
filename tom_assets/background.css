@@ -1,0 +1,19 @@
+body,html{
+    background-image: url('SMSG_PasscessLogin_BG_v06b.jpg');
+    background-position: 50% 10%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #1a40ab;
+}
+
+.company-logo {
+    background: #d1e6f570;
+    padding:0 !important;
+}
+
+@media(max-width:500px) {
+  .company-logo{
+	position:absolute !important;
+  }
+}
